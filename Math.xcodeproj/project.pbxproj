@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */; };
+		CD466F19172DB4BF00BAA1CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD466F17172DB4BF00BAA1CF /* InfoPlist.strings */; };
+		CD466F1B172DB4BF00BAA1CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F1A172DB4BF00BAA1CF /* main.m */; };
+		CD466F1F172DB4BF00BAA1CF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CD466F1D172DB4BF00BAA1CF /* Credits.rtf */; };
+		CD466F22172DB4BF00BAA1CF /* MATHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */; };
+		CD466F25172DB4BF00BAA1CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD466F23172DB4BF00BAA1CF /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CD466F0B172DB4BF00BAA1CF /* Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Math.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		CD466F11172DB4BF00BAA1CF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		CD466F12172DB4BF00BAA1CF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CD466F13172DB4BF00BAA1CF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CD466F16172DB4BF00BAA1CF /* Math-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Math-Info.plist"; sourceTree = "<group>"; };
+		CD466F18172DB4BF00BAA1CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CD466F1A172DB4BF00BAA1CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CD466F1C172DB4BF00BAA1CF /* Math-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Math-Prefix.pch"; sourceTree = "<group>"; };
+		CD466F1E172DB4BF00BAA1CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATHAppDelegate.h; sourceTree = "<group>"; };
+		CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MATHAppDelegate.m; sourceTree = "<group>"; };
+		CD466F24172DB4BF00BAA1CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD466F08172DB4BF00BAA1CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CD466F02172DB4BF00BAA1CF = {
+			isa = PBXGroup;
+			children = (
+				CD466F14172DB4BF00BAA1CF /* Math */,
+				CD466F0D172DB4BF00BAA1CF /* Frameworks */,
+				CD466F0C172DB4BF00BAA1CF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CD466F0C172DB4BF00BAA1CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F0B172DB4BF00BAA1CF /* Math.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CD466F0D172DB4BF00BAA1CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */,
+				CD466F10172DB4BF00BAA1CF /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD466F10172DB4BF00BAA1CF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F11172DB4BF00BAA1CF /* AppKit.framework */,
+				CD466F12172DB4BF00BAA1CF /* CoreData.framework */,
+				CD466F13172DB4BF00BAA1CF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		CD466F14172DB4BF00BAA1CF /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */,
+				CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */,
+				CD466F23172DB4BF00BAA1CF /* MainMenu.xib */,
+				CD466F15172DB4BF00BAA1CF /* Supporting Files */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		CD466F15172DB4BF00BAA1CF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F16172DB4BF00BAA1CF /* Math-Info.plist */,
+				CD466F17172DB4BF00BAA1CF /* InfoPlist.strings */,
+				CD466F1A172DB4BF00BAA1CF /* main.m */,
+				CD466F1C172DB4BF00BAA1CF /* Math-Prefix.pch */,
+				CD466F1D172DB4BF00BAA1CF /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CD466F0A172DB4BF00BAA1CF /* Math */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD466F28172DB4BF00BAA1CF /* Build configuration list for PBXNativeTarget "Math" */;
+			buildPhases = (
+				CD466F07172DB4BF00BAA1CF /* Sources */,
+				CD466F08172DB4BF00BAA1CF /* Frameworks */,
+				CD466F09172DB4BF00BAA1CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Math;
+			productName = Math;
+			productReference = CD466F0B172DB4BF00BAA1CF /* Math.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD466F03172DB4BF00BAA1CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MATH;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Jason Brennan";
+			};
+			buildConfigurationList = CD466F06172DB4BF00BAA1CF /* Build configuration list for PBXProject "Math" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CD466F02172DB4BF00BAA1CF;
+			productRefGroup = CD466F0C172DB4BF00BAA1CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD466F0A172DB4BF00BAA1CF /* Math */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CD466F09172DB4BF00BAA1CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD466F19172DB4BF00BAA1CF /* InfoPlist.strings in Resources */,
+				CD466F1F172DB4BF00BAA1CF /* Credits.rtf in Resources */,
+				CD466F25172DB4BF00BAA1CF /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD466F07172DB4BF00BAA1CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD466F1B172DB4BF00BAA1CF /* main.m in Sources */,
+				CD466F22172DB4BF00BAA1CF /* MATHAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CD466F17172DB4BF00BAA1CF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD466F18172DB4BF00BAA1CF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CD466F1D172DB4BF00BAA1CF /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD466F1E172DB4BF00BAA1CF /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		CD466F23172DB4BF00BAA1CF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD466F24172DB4BF00BAA1CF /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CD466F26172DB4BF00BAA1CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CD466F27172DB4BF00BAA1CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CD466F29172DB4BF00BAA1CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Math/Math-Prefix.pch";
+				INFOPLIST_FILE = "Math/Math-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CD466F2A172DB4BF00BAA1CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Math/Math-Prefix.pch";
+				INFOPLIST_FILE = "Math/Math-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD466F06172DB4BF00BAA1CF /* Build configuration list for PBXProject "Math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD466F26172DB4BF00BAA1CF /* Debug */,
+				CD466F27172DB4BF00BAA1CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD466F28172DB4BF00BAA1CF /* Build configuration list for PBXNativeTarget "Math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD466F29172DB4BF00BAA1CF /* Debug */,
+				CD466F2A172DB4BF00BAA1CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CD466F03172DB4BF00BAA1CF /* Project object */;
+}
