@@ -9,6 +9,10 @@
 #import "MATHAppDelegate.h"
 #import "GCMathParser.h"
 #import "MATHPlotView.h"
+#import "MATHTextView.h"
+
+@interface MATHAppDelegate () <NSTextViewDelegate>
+@end
 
 @implementation MATHAppDelegate
 
@@ -16,6 +20,8 @@
 {
 	// Insert code here to initialize your application
 	[self.textField setDelegate:self];
+	[self.textView setDelegate:self];
+	[self.textWindow makeKeyAndOrderFront:nil];
 }
 
 - (void)controlTextDidChange:(NSNotification *)notification {
@@ -23,6 +29,11 @@
 
 //    NSLog(@"answer == %f", [[textField stringValue] evaluateMath]);
 	self.plotView.expression = [textField stringValue];
+}
+
+
+- (void)textDidChange:(NSNotification *)notification {
+	self.plotView.expression = [self.textView string];
 }
 
 @end

@@ -42,7 +42,8 @@
 
 
 - (void)commonInit {
-	
+	[self setFont:[NSFont fontWithName:@"Menlo" size:16]];
+	[self setTextContainerInset:CGSizeMake(5, 5)];
 }
 
 
