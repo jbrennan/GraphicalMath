@@ -63,6 +63,8 @@
 	CGFloat totalXRange = 2.0 * M_PI;
 	CGFloat xScale = maxWidth / totalXRange;
 	
+	CGFloat yScale = 15.0f; // just a guess for now, we'll have to actually specify these later.
+	
 	double x, y;
 	for (x = -M_PI; x <= M_PI; x += 0.01) {
 		[self.mathParser setSymbolValue:x forKey:@"x"];
@@ -70,8 +72,9 @@
 		// do something with x and y here, for example plot it.
 		
 		// Need to scale these to fit in the bounds
-		CGFloat scaledX = xScale * x;
-		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(scaledX, maxHeight / 2.0f)]];
+		CGFloat scaledX = xScale * x + maxWidth/2.0f;
+		CGFloat scaledY = yScale * y + maxHeight/2.0f;
+		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(scaledX, scaledY)]];
 	}
 NSLog(@"%@", self.points);
 }
