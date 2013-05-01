@@ -17,7 +17,25 @@
 		CD466F34172DDF7E00BAA1CF /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F31172DDF7E00BAA1CF /* GCMathParser.m */; };
 		CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F381730ACFE00BAA1CF /* MATHTextView.m */; };
+		CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F401730B37F00BAA1CF /* ParseKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CD466F3F1730B37F00BAA1CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = ParseKit;
+		};
+		CD466F411730B37F00BAA1CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D37D8DC61571A4F700CDB822;
+			remoteInfo = Tests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		CD466F0B172DB4BF00BAA1CF /* Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Math.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +59,7 @@
 		CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZExpParser.mm; sourceTree = "<group>"; };
 		CD466F371730ACFE00BAA1CF /* MATHTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHTextView.h; sourceTree = "<group>"; };
 		CD466F381730ACFE00BAA1CF /* MATHTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHTextView.m; sourceTree = "<group>"; };
+		CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ParseKit.xcodeproj; path = parsekit/ParseKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */,
 				CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,6 +142,7 @@
 		CD466F2E172DDEC600BAA1CF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */,
 				CD466F2F172DDF0300BAA1CF /* GCExpressionParser */,
 			);
 			path = Libraries;
@@ -145,6 +166,15 @@
 				CD466F381730ACFE00BAA1CF /* MATHTextView.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CD466F3B1730B37E00BAA1CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F401730B37F00BAA1CF /* ParseKit.framework */,
+				CD466F421730B37F00BAA1CF /* Tests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,12 +217,35 @@
 			mainGroup = CD466F02172DB4BF00BAA1CF;
 			productRefGroup = CD466F0C172DB4BF00BAA1CF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CD466F3B1730B37E00BAA1CF /* Products */;
+					ProjectRef = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				CD466F0A172DB4BF00BAA1CF /* Math */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CD466F401730B37F00BAA1CF /* ParseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ParseKit.framework;
+			remoteRef = CD466F3F1730B37F00BAA1CF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CD466F421730B37F00BAA1CF /* Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.octest;
+			remoteRef = CD466F411730B37F00BAA1CF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CD466F09172DB4BF00BAA1CF /* Resources */ = {

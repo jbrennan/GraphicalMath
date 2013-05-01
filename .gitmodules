@@ -1,3 +1,6 @@
 [submodule "Math/Libraries/GCExpressionParser"]
 	path = Math/Libraries/GCExpressionParser
 	url = git@github.com:jbrennan/GCExpressionParser.git
+[submodule "Math/Libraries/parsekit"]
+	path = Math/Libraries/parsekit
+	url = git://github.com/jbrennan/parsekit.git

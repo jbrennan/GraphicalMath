@@ -7,6 +7,7 @@
 //
 
 #import "MATHTextView.h"
+#import <ParseKit/ParseKit.h>
 
 @interface MATHTextView ()
 @property (assign) NSRange currentlyHighlightedRange;
@@ -139,7 +140,7 @@
     }
     
     // Triggers clearing out our number-dragging state.
-    [self parseCode:nil];
+    [self highlightText];
     [self mouseMoved:theEvent];
     
     
@@ -183,14 +184,14 @@
     // Gets the line in range as it is currently in the textview's string
     NSString *currentLine = [self currentLineForRange:originalRange];
     
-    TDTokenizer *tokenizer = [TDTokenizer tokenizerWithString:currentLine];
+    PKTokenizer *tokenizer = [PKTokenizer tokenizerWithString:currentLine];
     
     tokenizer.commentState.reportsCommentTokens = YES;
     tokenizer.whitespaceState.reportsWhitespaceTokens = YES;
     
     
-    TDToken *eof = [TDToken EOFToken];
-    TDToken *token = nil;
+    PKToken *eof = [PKToken EOFToken];
+    PKToken *token = nil;
     
     
     NSUInteger currentLocation = 0; // in the command!
@@ -219,6 +220,47 @@
     
     NSRange lineRange = [wholeString lineRangeForRange:originalRange];
     return [wholeString substringWithRange:lineRange];
+}
+
+
+#pragma mark - Highlighting
+
+- (void)highlightText {
+	NSString *string = [[self textStorage] string];
+	PKTokenizer *tokenizer = [PKTokenizer tokenizerWithString:string];
+	
+	tokenizer.commentState.reportsCommentTokens = NO;
+	tokenizer.whitespaceState.reportsWhitespaceTokens = YES;
+	
+	
+	PKToken *eof = [PKToken EOFToken];
+	PKToken *token = nil;
+	
+	[[self textStorage] beginEditing];
+	[self.numberRanges removeAllObjects];
+	NSUInteger currentLocation = 0;
+	
+	while ((token = [tokenizer nextToken]) != eof) {
+		NSColor *fontColor = [NSColor whiteColor];//[NSColor grayColor];
+		
+		NSRange numberRange = NSMakeRange(currentLocation, [[token stringValue] length]);
+		
+		if ([token isNumber]) {
+			fontColor = [NSColor colorWithCalibratedWhite:0.890 alpha:1.000];
+			[self setNumberString:[token stringValue] forRange:numberRange];
+		} else {
+			NSColor *bgColor = [[self textStorage] attribute:NSBackgroundColorAttributeName atIndex:numberRange.location effectiveRange:NULL];
+			if (bgColor) fontColor = bgColor;
+		}
+		
+		
+		[[self textStorage] addAttribute:NSBackgroundColorAttributeName value:fontColor range:numberRange];
+		currentLocation += [[token stringValue] length];
+		
+		
+	}
+	
+	[[self textStorage] endEditing];
 }
 
 
