@@ -16,6 +16,7 @@
 		CD466F2D172DB51800BAA1CF /* MATHPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F2C172DB51800BAA1CF /* MATHPlotView.m */; };
 		CD466F34172DDF7E00BAA1CF /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F31172DDF7E00BAA1CF /* GCMathParser.m */; };
 		CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F381730ACFE00BAA1CF /* MATHTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		CD466F31172DDF7E00BAA1CF /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCMathParser.m; sourceTree = "<group>"; };
 		CD466F32172DDF7E00BAA1CF /* ZExpParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZExpParser.h; sourceTree = "<group>"; };
 		CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZExpParser.mm; sourceTree = "<group>"; };
+		CD466F371730ACFE00BAA1CF /* MATHTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHTextView.h; sourceTree = "<group>"; };
+		CD466F381730ACFE00BAA1CF /* MATHTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,7 @@
 		CD466F14172DB4BF00BAA1CF /* Math */ = {
 			isa = PBXGroup;
 			children = (
+				CD466F361730ACD900BAA1CF /* Views */,
 				CD466F2E172DDEC600BAA1CF /* Libraries */,
 				CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */,
 				CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */,
@@ -132,6 +136,15 @@
 				CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */,
 			);
 			path = GCExpressionParser;
+			sourceTree = "<group>";
+		};
+		CD466F361730ACD900BAA1CF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F371730ACFE00BAA1CF /* MATHTextView.h */,
+				CD466F381730ACFE00BAA1CF /* MATHTextView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +217,7 @@
 				CD466F2D172DB51800BAA1CF /* MATHPlotView.m in Sources */,
 				CD466F34172DDF7E00BAA1CF /* GCMathParser.m in Sources */,
 				CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */,
+				CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +353,7 @@
 				CD466F2A172DB4BF00BAA1CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
