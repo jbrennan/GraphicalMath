@@ -76,11 +76,11 @@
 		CGFloat scaledY = yScale * y + maxHeight/2.0f;
 		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(scaledX, scaledY)]];
 	}
-NSLog(@"%@", self.points);
+//NSLog(@"%@", self.points);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	[[NSColor whiteColor] set];
+	[[NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000] set];
 	NSRectFill([self bounds]);
 	// Draw the graph
 	

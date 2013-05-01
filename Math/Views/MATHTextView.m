@@ -48,6 +48,8 @@
 	
 	
 	[self setFont:[NSFont fontWithName:@"Menlo" size:16]];
+	[self setTextColor:[NSColor colorWithCalibratedHue:0.905 saturation:0.000 brightness:0.205 alpha:1.000]];
+	[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000]];
 	[self setTextContainerInset:CGSizeMake(5, 5)];
 	[[self textStorage] setDelegate:self];
 }
