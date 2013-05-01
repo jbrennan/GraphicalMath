@@ -9,7 +9,7 @@
 #import "MATHTextView.h"
 #import <ParseKit/ParseKit.h>
 
-@interface MATHTextView ()
+@interface MATHTextView () <NSTextStorageDelegate>
 @property (assign) NSRange currentlyHighlightedRange;
 @property (assign) NSRange initialNumberRange;
 @property (assign) NSRange initialDragCommandRange;
@@ -42,8 +42,18 @@
 
 
 - (void)commonInit {
+	
+	self.numberRanges = [@{} mutableCopy];
+	self.initialDragPoint = CGPointZero;
+	
+	
 	[self setFont:[NSFont fontWithName:@"Menlo" size:16]];
 	[self setTextContainerInset:CGSizeMake(5, 5)];
+	[[self textStorage] setDelegate:self];
+}
+
+- (void)textStorageDidProcessEditing:(NSNotification *)note {
+    [self highlightText];
 }
 
 

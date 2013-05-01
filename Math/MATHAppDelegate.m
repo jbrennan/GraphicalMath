@@ -21,7 +21,12 @@
 	// Insert code here to initialize your application
 	[self.textField setDelegate:self];
 	[self.textView setDelegate:self];
+	[self.window orderFront:nil];
 	[self.textWindow makeKeyAndOrderFront:nil];
+	
+	[self.textView setNumberDragHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
+		self.plotView.expression = [draggedObject string];
+	}];
 }
 
 - (void)controlTextDidChange:(NSNotification *)notification {
