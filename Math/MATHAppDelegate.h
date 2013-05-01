@@ -8,8 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MATHAppDelegate : NSObject <NSApplicationDelegate>
+@class MATHPlotView;
+@interface MATHAppDelegate : NSObject <NSApplicationDelegate, NSTextFieldDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+@property (weak) IBOutlet MATHPlotView *plotView;
+@property (weak) IBOutlet NSTextField *textField;
 
 @end

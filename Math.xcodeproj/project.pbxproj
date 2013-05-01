@@ -13,6 +13,9 @@
 		CD466F1F172DB4BF00BAA1CF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CD466F1D172DB4BF00BAA1CF /* Credits.rtf */; };
 		CD466F22172DB4BF00BAA1CF /* MATHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */; };
 		CD466F25172DB4BF00BAA1CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD466F23172DB4BF00BAA1CF /* MainMenu.xib */; };
+		CD466F2D172DB51800BAA1CF /* MATHPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F2C172DB51800BAA1CF /* MATHPlotView.m */; };
+		CD466F34172DDF7E00BAA1CF /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F31172DDF7E00BAA1CF /* GCMathParser.m */; };
+		CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,12 @@
 		CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATHAppDelegate.h; sourceTree = "<group>"; };
 		CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MATHAppDelegate.m; sourceTree = "<group>"; };
 		CD466F24172DB4BF00BAA1CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		CD466F2B172DB51800BAA1CF /* MATHPlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHPlotView.h; sourceTree = "<group>"; };
+		CD466F2C172DB51800BAA1CF /* MATHPlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHPlotView.m; sourceTree = "<group>"; };
+		CD466F30172DDF7E00BAA1CF /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMathParser.h; sourceTree = "<group>"; };
+		CD466F31172DDF7E00BAA1CF /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCMathParser.m; sourceTree = "<group>"; };
+		CD466F32172DDF7E00BAA1CF /* ZExpParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZExpParser.h; sourceTree = "<group>"; };
+		CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZExpParser.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +60,7 @@
 				CD466F0C172DB4BF00BAA1CF /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		CD466F0C172DB4BF00BAA1CF /* Products */ = {
 			isa = PBXGroup;
@@ -82,10 +92,13 @@
 		CD466F14172DB4BF00BAA1CF /* Math */ = {
 			isa = PBXGroup;
 			children = (
+				CD466F2E172DDEC600BAA1CF /* Libraries */,
 				CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */,
 				CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */,
 				CD466F23172DB4BF00BAA1CF /* MainMenu.xib */,
 				CD466F15172DB4BF00BAA1CF /* Supporting Files */,
+				CD466F2B172DB51800BAA1CF /* MATHPlotView.h */,
+				CD466F2C172DB51800BAA1CF /* MATHPlotView.m */,
 			);
 			path = Math;
 			sourceTree = "<group>";
@@ -100,6 +113,25 @@
 				CD466F1D172DB4BF00BAA1CF /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CD466F2E172DDEC600BAA1CF /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F2F172DDF0300BAA1CF /* GCExpressionParser */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		CD466F2F172DDF0300BAA1CF /* GCExpressionParser */ = {
+			isa = PBXGroup;
+			children = (
+				CD466F30172DDF7E00BAA1CF /* GCMathParser.h */,
+				CD466F31172DDF7E00BAA1CF /* GCMathParser.m */,
+				CD466F32172DDF7E00BAA1CF /* ZExpParser.h */,
+				CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */,
+			);
+			path = GCExpressionParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +201,9 @@
 			files = (
 				CD466F1B172DB4BF00BAA1CF /* main.m in Sources */,
 				CD466F22172DB4BF00BAA1CF /* MATHAppDelegate.m in Sources */,
+				CD466F2D172DB51800BAA1CF /* MATHPlotView.m in Sources */,
+				CD466F34172DDF7E00BAA1CF /* GCMathParser.m in Sources */,
+				CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
