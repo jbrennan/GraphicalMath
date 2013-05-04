@@ -8,6 +8,11 @@
 
 #import "MATHPlotView.h"
 #import "GCMathParser.h"
+#import "NSColor+MathColors.h"
+
+
+const CGFloat MATHPlotViewLineWidth = 1.0f;
+
 
 @interface MATHPlotView ()
 @property (strong) GCMathParser *mathParser;
@@ -109,12 +114,29 @@
 
 
 - (void)drawPeriodicGraph {
+	// Draw the origin in the centre of the view
+	CGRect bounds = [self bounds];
+	
+	[[NSColor mathGraphAxisColor] set];
+	
+	NSBezierPath *line = [NSBezierPath bezierPath];
+	
+	[line setLineWidth:MATHPlotViewLineWidth];
+	[line moveToPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
+	[line lineToPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinX(bounds))];
+	[line stroke];
+	
+	[line removeAllPoints];
+	
+	[line moveToPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
+	[line lineToPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
+	[line stroke];
 	
 }
 
 
 - (void)drawOriginGraph {
-	
+	// Draw the origin in the lower left of the view
 }
 
 
