@@ -83,6 +83,7 @@
 	[[NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000] set];
 	NSRectFill([self bounds]);
 	// Draw the graph
+	[self drawGraph];
 	
 	// Draw the points
 	
@@ -95,6 +96,22 @@
 	
 	[[NSColor darkGrayColor] set];
 	[pointsPath stroke];
+}
+
+
+- (void)drawGraph {
+	if ([self expressionIsPeriodic]) {
+		[self drawPeriodicGraph];
+	} else {
+		[self drawOriginGraph];
+	}
+}
+
+
+#pragma mark - Helpers
+
+- (BOOL)expressionIsPeriodic {
+	return [self.expression hasSubstring:@"sin"] || [self.expression hasSubstring:@"cos"] || [self.expression hasSubstring:@"tan"]; // etc.
 }
 
 @end

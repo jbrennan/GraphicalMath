@@ -16,17 +16,21 @@
 
 @implementation MATHAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-	// Insert code here to initialize your application
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	
+//	[[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar];
+	
 	[self.textField setDelegate:self];
 	[self.textView setDelegate:self];
-	[self.window orderFront:nil];
+	[self.window makeKeyAndOrderFront:nil];
 	[self.textWindow makeKeyAndOrderFront:nil];
 	
 	[self.textView setNumberDragHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
 		self.plotView.expression = [draggedObject string];
 	}];
+	NSString *expression = @"sin(x)";
+	[self.textView setString:expression];
+	[self.plotView setExpression:expression];
 }
 
 - (void)controlTextDidChange:(NSNotification *)notification {
