@@ -108,6 +108,16 @@
 }
 
 
+- (void)drawPeriodicGraph {
+	
+}
+
+
+- (void)drawOriginGraph {
+	
+}
+
+
 #pragma mark - Helpers
 
 - (BOOL)expressionIsPeriodic {

@@ -18,6 +18,7 @@
 		CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD466F33172DDF7E00BAA1CF /* ZExpParser.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F381730ACFE00BAA1CF /* MATHTextView.m */; };
 		CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F401730B37F00BAA1CF /* ParseKit.framework */; };
+		CD466FA61735932B00BAA1CF /* CocoaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466FA31735931F00BAA1CF /* CocoaToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = D37D8DC61571A4F700CDB822;
 			remoteInfo = Tests;
+		};
+		CD466FA21735931F00BAA1CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD466F7B1735904E00BAA1CF;
+			remoteInfo = CocoaToolbox;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -60,6 +68,7 @@
 		CD466F371730ACFE00BAA1CF /* MATHTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHTextView.h; sourceTree = "<group>"; };
 		CD466F381730ACFE00BAA1CF /* MATHTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHTextView.m; sourceTree = "<group>"; };
 		CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ParseKit.xcodeproj; path = parsekit/ParseKit.xcodeproj; sourceTree = "<group>"; };
+		CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocoaToolbox.xcodeproj; path = CocoaToolbox/CocoaToolbox.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD466FA61735932B00BAA1CF /* CocoaToolbox.framework in Frameworks */,
 				CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */,
 				CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */,
 			);
@@ -142,6 +152,7 @@
 		CD466F2E172DDEC600BAA1CF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */,
 				CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */,
 				CD466F2F172DDF0300BAA1CF /* GCExpressionParser */,
 			);
@@ -173,6 +184,14 @@
 			children = (
 				CD466F401730B37F00BAA1CF /* ParseKit.framework */,
 				CD466F421730B37F00BAA1CF /* Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CD466F9F1735931F00BAA1CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD466FA31735931F00BAA1CF /* CocoaToolbox.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,6 +238,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = CD466F9F1735931F00BAA1CF /* Products */;
+					ProjectRef = CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */;
+				},
+				{
 					ProductGroup = CD466F3B1730B37E00BAA1CF /* Products */;
 					ProjectRef = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
 				},
@@ -243,6 +266,13 @@
 			fileType = wrapper.cfbundle;
 			path = Tests.octest;
 			remoteRef = CD466F411730B37F00BAA1CF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CD466FA31735931F00BAA1CF /* CocoaToolbox.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaToolbox.framework;
+			remoteRef = CD466FA21735931F00BAA1CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
