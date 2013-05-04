@@ -4,3 +4,6 @@
 [submodule "Math/Libraries/parsekit"]
 	path = Math/Libraries/parsekit
 	url = git://github.com/jbrennan/parsekit.git
+[submodule "Math/Libraries/CocoaToolbox"]
+	path = Math/Libraries/CocoaToolbox
+	url = git@github.com:jbrennan/CocoaToolbox.git
