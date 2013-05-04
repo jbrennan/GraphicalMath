@@ -11,7 +11,7 @@
 @implementation NSColor (MathColors)
 
 + (NSColor *)mathGraphAxisColor {
-	return [NSColor colorWithCalibratedHue:0.905 saturation:0.000 brightness:0.205 alpha:1.000];
+	return [NSColor colorWithCalibratedHue:0.905 saturation:0.000 brightness:0.705 alpha:1.000];
 }
 
 @end
