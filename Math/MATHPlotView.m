@@ -90,10 +90,13 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	// Draw the graph
 	[self drawGraph];
 	
+	// Draw units
+	[self drawUnits];
+	
 	// Draw the points
 	
 	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
-	NSValue *firstPoint = [[[self.points reverseObjectEnumerator] allObjects] lastObject];
+	NSValue *firstPoint = [self.points zerothObject];
 	[pointsPath moveToPoint:[firstPoint pointValue]];
 	for (NSValue *v in self.points) {
 		[pointsPath lineToPoint:[v pointValue]];
@@ -111,6 +114,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 		[self drawOriginGraph];
 	}
 }
+
+
 
 
 - (void)drawPeriodicGraph {
@@ -140,10 +145,71 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
+- (void)drawUnits {
+	if ([self expressionIsPeriodic]) {
+		[self drawPeriodicUnits];
+	} else {
+		[self drawOriginUnits];
+	}
+}
+
+
+- (void)drawPeriodicUnits {
+	// I need some kind of scale that will take mathematical units and turn them into pixel units (well, points).
+	// This scale needs to be the same no matter what the size of the view is.
+	// But the scale should probably be configurable so that it can either be zoomed or derived from the Expression being evaluated.
+	
+	// Get the scale for the current expression
+	CGFloat unitScale = [self unitScale];
+	
+	// Iterate over the axises and draw marks every unitScale pixels?
+	CGPoint origin = CGPointMake(CGRectGetMidX([self bounds]), CGRectGetMidY([self bounds]));
+	
+	NSBezierPath *line = [NSBezierPath bezierPath];
+	[line setLineWidth:MATHPlotViewLineWidth];
+	
+	
+	// positive x
+	NSUInteger unitsOverXAxis = (NSUInteger)(CGRectGetWidth([self bounds]) / 2.0f) / unitScale; // half-width
+	for (NSInteger currentMarker = 0; currentMarker < unitsOverXAxis; currentMarker++) {
+		[line removeAllPoints];
+		
+		CGPoint markerPoint = CGPointMake(currentMarker * unitScale + origin.x, origin.y);
+		CGPoint endPoint = CGPointMake(markerPoint.x, markerPoint.y - 5.0f);
+		
+		[line moveToPoint:markerPoint];
+		[line lineToPoint:endPoint];
+		[line stroke];
+		
+		if (currentMarker == 0) continue;
+		
+		NSString *currentNumber = [NSString stringWithFormat:@"%ld", (long)currentMarker];
+		NSFont *numberFont = [NSFont fontWithName:@"Helvetica-Bold" size:9];
+		
+		NSDictionary *attributes = @{NSFontAttributeName: numberFont, NSForegroundColorAttributeName: [NSColor mathGraphAxisColor]};
+		endPoint.x -= [currentNumber sizeWithAttributes:attributes].width / 2.0f;
+		endPoint.y -= 13.0f;
+		[currentNumber drawAtPoint:endPoint withAttributes:attributes];
+	}
+}
+
+
+- (void)drawOriginUnits {
+	
+}
+
+
 #pragma mark - Helpers
 
 - (BOOL)expressionIsPeriodic {
 	return [self.expression hasSubstring:@"sin"] || [self.expression hasSubstring:@"cos"] || [self.expression hasSubstring:@"tan"]; // etc.
+}
+
+
+- (CGFloat)unitScale {
+	// This should instead go in some kind of Expression class, along with other attributes like -expressionIsPeriodic, for example.
+	// Also in that class should be things like evaluation ranges/domain
+	return 30.0f;
 }
 
 @end
