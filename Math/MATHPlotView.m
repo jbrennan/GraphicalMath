@@ -159,6 +159,15 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	// This scale needs to be the same no matter what the size of the view is.
 	// But the scale should probably be configurable so that it can either be zoomed or derived from the Expression being evaluated.
 	
+	[self drawPeriodicUnitsAlongHorizontalAxis:YES positive:YES];
+	[self drawPeriodicUnitsAlongHorizontalAxis:YES positive:NO];
+	[self drawPeriodicUnitsAlongHorizontalAxis:NO positive:YES];
+	[self drawPeriodicUnitsAlongHorizontalAxis:NO positive:NO];
+	
+}
+
+
+- (void)drawPeriodicUnitsAlongHorizontalAxis:(BOOL)yesForHorizontal positive:(BOOL)positive {
 	// Get the scale for the current expression
 	CGFloat unitScale = [self unitScale];
 	
@@ -169,13 +178,40 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[line setLineWidth:MATHPlotViewLineWidth];
 	
 	
-	// positive x
-	NSUInteger unitsOverXAxis = (NSUInteger)(CGRectGetWidth([self bounds]) / 2.0f) / unitScale; // half-width
-	for (NSInteger currentMarker = 0; currentMarker < unitsOverXAxis; currentMarker++) {
+	// get the units
+	NSUInteger unitsOverAxis = 0;
+	if (yesForHorizontal) {
+		unitsOverAxis = (NSUInteger)(CGRectGetWidth([self bounds]) / 2.0f) / unitScale; // half-width
+	} else {
+		unitsOverAxis = (NSUInteger)(CGRectGetHeight([self bounds]) / 2.0f) / unitScale; // half-height
+	}
+	unitsOverAxis++;
+	
+	
+	for (NSInteger currentMarker = 0; currentMarker < unitsOverAxis; currentMarker++) {
+		
 		[line removeAllPoints];
 		
-		CGPoint markerPoint = CGPointMake(currentMarker * unitScale + origin.x, origin.y);
-		CGPoint endPoint = CGPointMake(markerPoint.x, markerPoint.y - 5.0f);
+		
+		CGPoint markerPoint;
+		CGPoint endPoint;
+		CGFloat markerEndOffset = 5.0f;
+		if (yesForHorizontal) {
+			if (positive) {
+				markerPoint = CGPointMake(currentMarker * unitScale + origin.x, origin.y);
+			} else {
+				markerPoint = CGPointMake(origin.x - currentMarker * unitScale, origin.y);
+			}
+			endPoint = CGPointMake(markerPoint.x, markerPoint.y - markerEndOffset);
+		} else {
+			if (positive) {
+				markerPoint = CGPointMake(origin.x, currentMarker * unitScale + origin.y);
+			} else {
+				markerPoint = CGPointMake(origin.x, origin.y - currentMarker * unitScale);
+			}
+			endPoint = CGPointMake(markerPoint.x - markerEndOffset, markerPoint.y);
+		}
+		
 		
 		[line moveToPoint:markerPoint];
 		[line lineToPoint:endPoint];
@@ -183,12 +219,19 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 		
 		if (currentMarker == 0) continue;
 		
-		NSString *currentNumber = [NSString stringWithFormat:@"%ld", (long)currentMarker];
+		NSString *currentNumber = [NSString stringWithFormat:@"%@%ld", positive? @"" : @"-", currentMarker];
 		NSFont *numberFont = [NSFont fontWithName:@"Helvetica-Bold" size:9];
 		
 		NSDictionary *attributes = @{NSFontAttributeName: numberFont, NSForegroundColorAttributeName: [NSColor mathGraphAxisColor]};
-		endPoint.x -= [currentNumber sizeWithAttributes:attributes].width / 2.0f;
-		endPoint.y -= 13.0f;
+		
+		CGFloat letterOffset = 13.0f;
+		if (yesForHorizontal) {
+			endPoint.x -= [currentNumber sizeWithAttributes:attributes].width / 2.0f;
+			endPoint.y -= letterOffset;
+		} else {
+			endPoint.x -= 10;
+			endPoint.y -= ([currentNumber sizeWithAttributes:attributes].width / 2.0f) + 2;
+		}
 		[currentNumber drawAtPoint:endPoint withAttributes:attributes];
 	}
 }
