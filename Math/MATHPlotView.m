@@ -111,7 +111,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	if ([self expressionIsPeriodic]) {
 		[self drawPeriodicGraph];
 	} else {
-		[self drawOriginGraph];
+		[self drawPeriodicGraph];
 	}
 }
 
@@ -149,7 +149,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	if ([self expressionIsPeriodic]) {
 		[self drawPeriodicUnits];
 	} else {
-		[self drawOriginUnits];
+		[self drawPeriodicUnits];
 	}
 }
 
