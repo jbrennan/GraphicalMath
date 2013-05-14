@@ -7,7 +7,7 @@
 //
 
 #import "MATHPlotView.h"
-#import "GCMathParser.h"
+#import "MATHExpression.h"
 #import "NSColor+MathColors.h"
 
 
@@ -15,8 +15,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 @interface MATHPlotView ()
-@property (strong) GCMathParser *mathParser;
-@property (strong) NSMutableArray *points;;
+@property (strong) NSMutableArray *points;
+@property (strong) MATHExpression *expressionEvaluator;
 @end
 
 @implementation MATHPlotView
@@ -42,7 +42,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)commonInit {
-	self.mathParser = [GCMathParser parser];
+	self.expressionEvaluator = [MATHExpression new];
 	self.points = [NSMutableArray new];
 }
 
@@ -58,29 +58,12 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)setupPlotInfo {
-	NSString* expression = self.expression;
+	self.expressionEvaluator.expression = self.expression;
 	self.points = [NSMutableArray new];
 	
-	CGRect bounds = [self bounds];
-	CGFloat maxWidth = CGRectGetWidth(bounds);
-	CGFloat maxHeight = CGRectGetHeight(bounds);
-	
-	CGFloat totalXRange = 2.0 * M_PI;
-	CGFloat xScale = maxWidth / totalXRange;
-	
-	CGFloat yScale = [self unitScale]; // just a guess for now, we'll have to actually specify these later.
-	
-	double x, y;
-	for (x = -M_PI; x <= M_PI; x += 0.01) {
-		[self.mathParser setSymbolValue:x forKey:@"x"];
-		y = [self.mathParser evaluate:expression];
-		
-		// Need to scale these to fit in the bounds
-		CGFloat scaledX = xScale * x + maxWidth/2.0f;
-		CGFloat scaledY = yScale * y + maxHeight/2.0f;
-		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(x, y)]];
-	}
-//NSLog(@"%@", self.points);
+	[self.expressionEvaluator evaluateExpressionFromX:-M_PI toX:M_PI evaluationHandler:^(double input, double result) {
+		[self.points addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
+	}];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

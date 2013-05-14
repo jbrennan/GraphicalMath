@@ -51,4 +51,28 @@
 	}
 }
 
+
+#pragma mark - Public API
+
+- (BOOL)expressionIsPeriodic {
+	return [self.expression hasSubstring:@"sin"] || [self.expression hasSubstring:@"cos"] || [self.expression hasSubstring:@"tan"]; // etc.
+}
+
+
+- (void)evaluateExpressionFromX:(double)fromX toX:(double)toX evaluationHandler:(MATHExpressionEvaluationHandler)evaluationHandler {
+	
+	if (evaluationHandler == nil) return;
+	
+	NSString *expression = self.expression; // instead of repeatedly asking for it.
+	GCMathParser *parser = self.mathParser;
+	
+	double x, y;
+	for (x = fromX; x <= toX; x += 0.01) {
+		[parser setSymbolValue:x forKey:@"x"];
+		y = [parser evaluate:expression];
+		
+		evaluationHandler(x, y);
+	}
+}
+
 @end
