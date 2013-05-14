@@ -20,6 +20,7 @@
 		CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F401730B37F00BAA1CF /* ParseKit.framework */; };
 		CD466FA61735932B00BAA1CF /* CocoaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466FA31735931F00BAA1CF /* CocoaToolbox.framework */; };
 		CD466FAB1735969400BAA1CF /* NSColor+MathColors.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466FAA1735969400BAA1CF /* NSColor+MathColors.m */; };
+		CDD212AB17424ECC00F43BBE /* MATHExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD212AA17424ECC00F43BBE /* MATHExpression.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocoaToolbox.xcodeproj; path = CocoaToolbox/CocoaToolbox.xcodeproj; sourceTree = "<group>"; };
 		CD466FA91735969400BAA1CF /* NSColor+MathColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+MathColors.h"; sourceTree = "<group>"; };
 		CD466FAA1735969400BAA1CF /* NSColor+MathColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+MathColors.m"; sourceTree = "<group>"; };
+		CDD212A917424ECC00F43BBE /* MATHExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHExpression.h; sourceTree = "<group>"; };
+		CDD212AA17424ECC00F43BBE /* MATHExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHExpression.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,7 @@
 			children = (
 				CD466FA81735962C00BAA1CF /* Categories */,
 				CD466F361730ACD900BAA1CF /* Views */,
+				CDD212A517424E8400F43BBE /* Models */,
 				CD466F2E172DDEC600BAA1CF /* Libraries */,
 				CD466F20172DB4BF00BAA1CF /* MATHAppDelegate.h */,
 				CD466F21172DB4BF00BAA1CF /* MATHAppDelegate.m */,
@@ -207,6 +211,15 @@
 				CD466FAA1735969400BAA1CF /* NSColor+MathColors.m */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		CDD212A517424E8400F43BBE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CDD212A917424ECC00F43BBE /* MATHExpression.h */,
+				CDD212AA17424ECC00F43BBE /* MATHExpression.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +328,7 @@
 				CD466F35172DDF7E00BAA1CF /* ZExpParser.mm in Sources */,
 				CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */,
 				CD466FAB1735969400BAA1CF /* NSColor+MathColors.m in Sources */,
+				CDD212AB17424ECC00F43BBE /* MATHExpression.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
