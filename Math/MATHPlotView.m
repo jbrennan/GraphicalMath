@@ -68,42 +68,31 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGFloat totalXRange = 2.0 * M_PI;
 	CGFloat xScale = maxWidth / totalXRange;
 	
-	CGFloat yScale = 15.0f; // just a guess for now, we'll have to actually specify these later.
+	CGFloat yScale = [self unitScale]; // just a guess for now, we'll have to actually specify these later.
 	
 	double x, y;
 	for (x = -M_PI; x <= M_PI; x += 0.01) {
 		[self.mathParser setSymbolValue:x forKey:@"x"];
 		y = [self.mathParser evaluate:expression];
-		// do something with x and y here, for example plot it.
 		
 		// Need to scale these to fit in the bounds
 		CGFloat scaledX = xScale * x + maxWidth/2.0f;
 		CGFloat scaledY = yScale * y + maxHeight/2.0f;
-		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(scaledX, scaledY)]];
+		[self.points addObject:[NSValue valueWithPoint:NSMakePoint(x, y)]];
 	}
 //NSLog(@"%@", self.points);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+	
+	// Draw a background colour
 	[[NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000] set];
 	NSRectFill([self bounds]);
-	// Draw the graph
+
+	
 	[self drawGraph];
-	
-	// Draw units
 	[self drawUnits];
-	
-	// Draw the points
-	
-	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
-	NSValue *firstPoint = [self.points zerothObject];
-	[pointsPath moveToPoint:[firstPoint pointValue]];
-	for (NSValue *v in self.points) {
-		[pointsPath lineToPoint:[v pointValue]];
-	}
-	
-	[[NSColor darkGrayColor] set];
-	[pointsPath stroke];
+	[self drawPoints];
 }
 
 
@@ -115,6 +104,43 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	}
 }
 
+
+- (void)drawUnits {
+	if ([self expressionIsPeriodic]) {
+		[self drawPeriodicUnits];
+	} else {
+		[self drawPeriodicUnits];
+	}
+}
+
+
+- (void)drawPoints {
+	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
+	NSValue *firstPoint = [self.points zerothObject];
+	
+	CGPoint unscaledPoint = [firstPoint pointValue];
+	
+	[pointsPath moveToPoint:[self scaledAndTranslatedPointForPoint:unscaledPoint]];
+	for (NSValue *v in self.points) {
+		[pointsPath lineToPoint:[self scaledAndTranslatedPointForPoint:[v pointValue]]];
+	}
+	
+	[[NSColor darkGrayColor] set];
+	[pointsPath stroke];
+}
+
+
+- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
+	CGFloat scale = [self unitScale];
+	
+	CGRect bounds = [self bounds];
+	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+	
+	CGPoint scaled = CGPointMake(unscaledPoint.x * scale, unscaledPoint.y * scale);
+	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
+	
+	return translated;
+}
 
 
 
@@ -145,13 +171,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
-- (void)drawUnits {
-	if ([self expressionIsPeriodic]) {
-		[self drawPeriodicUnits];
-	} else {
-		[self drawPeriodicUnits];
-	}
-}
 
 
 - (void)drawPeriodicUnits {
@@ -171,7 +190,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	// Get the scale for the current expression
 	CGFloat unitScale = [self unitScale];
 	
-	// Iterate over the axises and draw marks every unitScale pixels?
 	CGPoint origin = CGPointMake(CGRectGetMidX([self bounds]), CGRectGetMidY([self bounds]));
 	
 	NSBezierPath *line = [NSBezierPath bezierPath];
