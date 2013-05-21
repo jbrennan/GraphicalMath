@@ -48,8 +48,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)setExpression:(NSString *)expression {
-	NSLog(@"Setting expression...currently is: %@", self.expression);
-	_expression = expression;
+	_expression = [expression copy];
 	
 	[self setupPlotInfo];
 	

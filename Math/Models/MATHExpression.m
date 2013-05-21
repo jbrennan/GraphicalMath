@@ -44,30 +44,27 @@
 
 - (void)parseExpressionForValidity:(NSString *)expression {
 	
-	// Trying to put this in an autoreleasepool to get around a bug with some parser state being left over..?
-	@autoreleasepool {		
+	@try {
+		GCMathParser *p = [GCMathParser parser];
+		[p evaluate:expression];
+		NSLog(@"successfully parsed: %@", expression);
+		self.lastValidExpression = expression;
+	}
+	@catch (NSException *exception) {
+		// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
+		self.lastValidExpression = self.expression;
+		NSLog(@"Didn't parse: %@", expression);
+		
 		@try {
-			GCMathParser *p = [GCMathParser parser];
-			[p evaluate:expression];
-			NSLog(@"successfully parsed: %@", expression);
-			self.lastValidExpression = expression;
+			// clear out the parser's internal status...it apparently does something messy.
+			// This is a hack.
+			[GCMathParser evaluate:@"1"];
 		}
 		@catch (NSException *exception) {
-			// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
-			self.lastValidExpression = self.expression;
-			NSLog(@"Didn't parse: %@", expression);
+			NSLog(@"Parser error on the cleanup!!");
+		}
+		@finally {
 			
-			@try {
-				// clear out the parser's internal status...it apparently does something messy.
-				// This is a hack.
-				[GCMathParser evaluate:@"1"];
-			}
-			@catch (NSException *exception) {
-				NSLog(@"Parser error on the cleanup!!");
-			}
-			@finally {
-				
-			}
 		}
 	}
 }

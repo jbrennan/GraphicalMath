@@ -18,11 +18,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	
-//	[[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar];
-	
-	[self.textField setDelegate:self];
 	[self.textView setDelegate:self];
-	[self.window makeKeyAndOrderFront:nil];
+	[self.window orderFrontRegardless];
 	[self.textWindow makeKeyAndOrderFront:nil];
 	
 	[self.textView setNumberDragHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
@@ -33,17 +30,11 @@
 	[self.plotView setExpression:expression];
 }
 
-- (void)controlTextDidChange:(NSNotification *)notification {
-    NSTextField *textField = [notification object];
 
-//    NSLog(@"answer == %f", [[textField stringValue] evaluateMath]);
-	self.plotView.expression = [textField stringValue];
-}
 
 
 - (void)textDidChange:(NSNotification *)notification {
 	NSString *text = [self.textView string];
-	NSLog(@"Setting from app delegate: %@ currently is %@", text, self.plotView.expression);
 	self.plotView.expression = text;
 }
 
