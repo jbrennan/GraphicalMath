@@ -17,3 +17,22 @@ May 17 2013
 Last time I created an Expression class to better model what I'm trying to do. It's incomplete but now it's the proper place for the expression-related code.
 
 Today I will let it communicate with the plot view better so that when it generates points to plot, they will actually fill the screen, not just a small arbitrary region of it.
+
+
+May 21 2013
+-----------
+
+Wasted most of two days trying to figure out some stupid bugs:
+
+1. The value of the expression being set was supposed to be a copy property, but since I had overridden the setter, I wasn't doing the copy myself. ruh-roh.
+2. The expression parser appears to have a nasty bug where it keeps some state around even if you create a second instance of it. So if your expression fails to parse in a certain way, then the next time around the parser is in a bad state and can't parse. I'm guessing this has to do with it throwing an exception, which breaks the normal flow and skips any cleanup. Really, cleanup shouldn't be needed, but this is a shitty parser. Will look elsewhere for a better one, probably.
+
+At least now though the plot view works and can properly resize and everything.
+
+Next:
+
+1. Show alternative plots while scrubbing. So the original plot should always be visible, but it should also show the plot of whatever the scrubbed expression looks like during a scrub.
+
+2. Annotate the plot with the name of the functions being plotted during a scrub.
+
+3. Annotate the plot with the values of the expression as you mouse over the graph ("when x = 5, y = 2x+3 -> 13")
