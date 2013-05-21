@@ -44,6 +44,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 - (void)commonInit {
 	self.expressionEvaluator = [MATHExpression new];
 	self.points = [NSMutableArray new];
+	[self setAutoresizesSubviews:YES];
 }
 
 
@@ -60,10 +61,16 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 - (void)setupPlotInfo {
 	self.expressionEvaluator.expression = self.expression;
 	self.points = [NSMutableArray new];
-	
-	[self.expressionEvaluator evaluateExpressionFromX:-M_PI toX:M_PI evaluationHandler:^(double input, double result) {
+	double domain = [self graphingXDomain];
+	[self.expressionEvaluator evaluateExpressionFromX:-domain toX:domain evaluationHandler:^(double input, double result) {
 		[self.points addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
 	}];
+}
+
+- (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
+	[super resizeWithOldSuperviewSize:oldBoundsSize];
+	[self setupPlotInfo];
+	[self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -254,6 +261,12 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	// This should instead go in some kind of Expression class, along with other attributes like -expressionIsPeriodic, for example.
 	// Also in that class should be things like evaluation ranges/domain
 	return 30.0f;
+}
+
+
+- (double)graphingXDomain {
+	CGFloat halfWidth = CGRectGetMidX([self bounds]);
+	return (double)(halfWidth/[self unitScale]);
 }
 
 @end
