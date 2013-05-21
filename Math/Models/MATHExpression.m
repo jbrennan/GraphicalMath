@@ -37,7 +37,7 @@
 	
 	[self parseExpressionForValidity:expression];
 	
-	_expression = expression;
+	_expression = [expression copy];
 	
 	
 }
