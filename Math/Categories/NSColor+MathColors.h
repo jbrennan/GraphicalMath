@@ -11,5 +11,6 @@
 @interface NSColor (MathColors)
 
 + (NSColor *)mathGraphAxisColor;
++ (NSColor *)mathGraphBackgroundColor;
 
 @end

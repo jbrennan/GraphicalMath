@@ -19,6 +19,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 @property (strong) MATHExpression *expressionEvaluator;
 @end
 
+
 @implementation MATHPlotView
 
 - (id)initWithFrame:(NSRect)frame {
@@ -67,16 +68,18 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	}];
 }
 
+
 - (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
 	[super resizeWithOldSuperviewSize:oldBoundsSize];
 	[self setupPlotInfo];
 	[self setNeedsDisplay:YES];
 }
 
+
 - (void)drawRect:(NSRect)dirtyRect {
 	
 	// Draw a background colour
-	[[NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000] set];
+	[[NSColor mathGraphBackgroundColor] set];
 	NSRectFill([self bounds]);
 
 	
@@ -133,7 +136,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
-
 - (void)drawPeriodicGraph {
 	// Draw the origin in the centre of the view
 	CGRect bounds = [self bounds];
@@ -159,8 +161,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 - (void)drawOriginGraph {
 	// Draw the origin in the lower left of the view
 }
-
-
 
 
 - (void)drawPeriodicUnits {
