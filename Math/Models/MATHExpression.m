@@ -11,7 +11,7 @@
 
 @interface MATHExpression ()
 @property (readwrite, copy) NSString *lastValidExpression;
-@property (strong) GCMathParser *mathParser;
+@property (readonly, strong) GCMathParser *mathParser;
 @end
 
 
@@ -20,10 +20,16 @@
 - (id)init {
 	self = [super init];
 	if (self) {
-		self.mathParser = [GCMathParser parser];
+//		self.mathParser = [GCMathParser parser];
 	}
 	
 	return self;
+}
+
+
+- (GCMathParser *)mathParser {
+	// return a new parser
+	return [GCMathParser parser];
 }
 
 - (void)setExpression:(NSString *)expression {
@@ -38,16 +44,31 @@
 
 - (void)parseExpressionForValidity:(NSString *)expression {
 	
-	@try {
-		[self.mathParser evaluate:expression];
-		self.lastValidExpression = expression;
-	}
-	@catch (NSException *exception) {
-		// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
-		self.lastValidExpression = self.expression;
-	}
-	@finally {
-		
+	// Trying to put this in an autoreleasepool to get around a bug with some parser state being left over..?
+	@autoreleasepool {		
+		@try {
+			GCMathParser *p = [GCMathParser parser];
+			[p evaluate:expression];
+			NSLog(@"successfully parsed: %@", expression);
+			self.lastValidExpression = expression;
+		}
+		@catch (NSException *exception) {
+			// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
+			self.lastValidExpression = self.expression;
+			NSLog(@"Didn't parse: %@", expression);
+			
+			@try {
+				// clear out the parser's internal status...it apparently does something messy.
+				// This is a hack.
+				[GCMathParser evaluate:@"1"];
+			}
+			@catch (NSException *exception) {
+				NSLog(@"Parser error on the cleanup!!");
+			}
+			@finally {
+				
+			}
+		}
 	}
 }
 
@@ -62,14 +83,24 @@
 - (void)evaluateExpressionFromX:(double)fromX toX:(double)toX evaluationHandler:(MATHExpressionEvaluationHandler)evaluationHandler {
 	
 	if (evaluationHandler == nil) return;
+	if (![self.lastValidExpression length]) return;
+	NSLog(@"last valid: %@", self.lastValidExpression);
 	
-	NSString *expression = self.expression; // instead of repeatedly asking for it.
-	GCMathParser *parser = self.mathParser;
+	NSString *expression = self.lastValidExpression; // instead of repeatedly asking for it.
+	GCMathParser *parser = [GCMathParser parser];//self.mathParser;
 	
 	double x, y;
 	for (x = fromX; x <= toX; x += 0.01) {
 		[parser setSymbolValue:x forKey:@"x"];
-		y = [parser evaluate:expression];
+		@try {
+			y = [parser evaluate:expression];
+		}
+		@catch (NSException *exception) {
+			NSLog(@"Exception when evaluating (%@) over range??? %@", expression, exception);
+		}
+		@finally {
+			
+		}
 		
 		evaluationHandler(x, y);
 	}

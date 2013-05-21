@@ -42,7 +42,9 @@
 
 
 - (void)textDidChange:(NSNotification *)notification {
-	self.plotView.expression = [self.textView string];
+	NSString *text = [self.textView string];
+	NSLog(@"Setting from app delegate: %@ currently is %@", text, self.plotView.expression);
+	self.plotView.expression = text;
 }
 
 @end
