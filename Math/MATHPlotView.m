@@ -20,8 +20,9 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 @end
 
 
-@implementation MATHPlotView
+#pragma mark -
 
+@implementation MATHPlotView
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
@@ -49,15 +50,34 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
+- (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
+	[super resizeWithOldSuperviewSize:oldBoundsSize];
+	[self setupPlotInfoAndRedisplay];
+}
+
+#pragma mark - Public API
+
 - (void)setExpression:(NSString *)expression {
 	_expression = [expression copy];
 	
-	[self setupPlotInfo];
-	
-	[self setNeedsDisplay:YES];
-	
+	[self setupPlotInfoAndRedisplay];
 }
 
+
+- (void)setShowsComparisons:(BOOL)showsComparisons {
+	_showsComparisons = showsComparisons;
+	
+	[self setupPlotInfoAndRedisplay];
+}
+
+
+#pragma mark - Private API
+
+
+- (void)setupPlotInfoAndRedisplay {
+	[self setupPlotInfo];
+	[self setNeedsDisplay:YES];
+}
 
 - (void)setupPlotInfo {
 	self.expressionEvaluator.expression = self.expression;
@@ -69,12 +89,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
-- (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
-	[super resizeWithOldSuperviewSize:oldBoundsSize];
-	[self setupPlotInfo];
-	[self setNeedsDisplay:YES];
-}
-
+#pragma mark - Drawing
 
 - (void)drawRect:(NSRect)dirtyRect {
 	
@@ -86,6 +101,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[self drawGraph];
 	[self drawUnits];
 	[self drawPoints];
+	
+	[self drawComparisonLabels];
 }
 
 
@@ -107,6 +124,21 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
+- (void)drawComparisonLabels {
+//	if (!self.showsComparisons) return;
+	
+	NSFont *functionFont = [NSFont fontWithName:@"Helvetica-Bold" size:12.0f];
+	
+	NSColor *baseFunctionColor = [NSColor baseFunctionColor];
+	NSDictionary *baseAttributes = @{NSFontAttributeName: functionFont, NSForegroundColorAttributeName: baseFunctionColor};
+	
+	CGPoint drawingPoint = CGPointMake(20.0f, CGRectGetHeight([self bounds]) - 30.0f);
+	
+	// Draw the original function in grey
+	[self.expressionEvaluator.lastValidExpression drawAtPoint:drawingPoint withAttributes:baseAttributes];
+}
+
+
 - (void)drawPoints {
 	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
 	NSValue *firstPoint = [self.points zerothObject];
@@ -118,21 +150,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 		[pointsPath lineToPoint:[self scaledAndTranslatedPointForPoint:[v pointValue]]];
 	}
 	
-	[[NSColor darkGrayColor] set];
+	[[NSColor baseFunctionColor] set];
 	[pointsPath stroke];
-}
-
-
-- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
-	CGFloat scale = [self unitScale];
-	
-	CGRect bounds = [self bounds];
-	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-	
-	CGPoint scaled = CGPointMake(unscaledPoint.x * scale, unscaledPoint.y * scale);
-	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
-	
-	return translated;
 }
 
 
@@ -267,6 +286,19 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 - (double)graphingXDomain {
 	CGFloat halfWidth = CGRectGetMidX([self bounds]);
 	return (double)(halfWidth/[self unitScale]);
+}
+
+
+- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
+	CGFloat scale = [self unitScale];
+	
+	CGRect bounds = [self bounds];
+	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+	
+	CGPoint scaled = CGPointMake(unscaledPoint.x * scale, unscaledPoint.y * scale);
+	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
+	
+	return translated;
 }
 
 @end

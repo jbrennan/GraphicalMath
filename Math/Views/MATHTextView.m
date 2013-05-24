@@ -101,6 +101,10 @@
 	
     NSRange originalCommandRange = [wholeText lineRangeForRange:self.currentlyHighlightedRange];
     self.initialDragCommandRange = originalCommandRange;
+	
+	if (self.dragStartedHandler) {
+		self.dragStartedHandler(self, [wholeText substringWithRange:originalCommandRange]);
+	}
 }
 
 
@@ -151,6 +155,10 @@
         [super mouseUp:theEvent];
         return;
     }
+	
+	if (self.dragEndedHandler) {
+		self.dragEndedHandler(self, [[self string] substringWithRange:self.initialDragCommandRange]);
+	}
     
     // Triggers clearing out our number-dragging state.
     [self highlightText];

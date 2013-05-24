@@ -13,4 +13,7 @@
 + (NSColor *)mathGraphAxisColor;
 + (NSColor *)mathGraphBackgroundColor;
 
++ (NSColor *)baseFunctionColor;
++ (NSColor *)comparedFunctionColor;
+
 @end

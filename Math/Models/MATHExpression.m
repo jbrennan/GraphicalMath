@@ -93,7 +93,7 @@
 			y = [parser evaluate:expression];
 		}
 		@catch (NSException *exception) {
-			NSLog(@"Exception when evaluating (%@) over range??? %@", expression, exception);
+//			NSLog(@"Exception when evaluating (%@) over range??? %@", expression, exception);
 		}
 		@finally {
 			

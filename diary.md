@@ -36,3 +36,9 @@ Next:
 2. Annotate the plot with the name of the functions being plotted during a scrub.
 
 3. Annotate the plot with the values of the expression as you mouse over the graph ("when x = 5, y = 2x+3 -> 13")
+
+
+May 23 2013
+-----------
+
+Today I got drag start/end messages sending for the text view and also started work on a "compare" view for the plot so that two functions can be compared during a drag.

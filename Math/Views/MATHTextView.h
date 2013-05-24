@@ -13,6 +13,12 @@ typedef void (^MATHTextViewDragHandler)(NSTextView *draggedObject, NSString *dra
 
 @interface MATHTextView : NSTextView
 
+
+// It occurs to me these could have been delegate methods, but I want to try this.
+@property (copy) MATHTextViewDragHandler dragStartedHandler;
+@property (copy) MATHTextViewDragHandler dragEndedHandler;
+
 @property (copy) MATHTextViewDragHandler numberDragHandler; // will be called continuously as a number is dragged
+
 
 @end
