@@ -161,14 +161,15 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	}
 	
 	
+	if (self.showsComparisons) {
+		// draw the base first so that the current function will be on top.
+		[secondColor set];
+		[[self bezierPathForPoints:self.basePoints] stroke];
+	}
+	
+	
 	[firstColor set];
 	[[self bezierPathForPoints:self.currentPoints] stroke];
-	
-	
-	if (!self.showsComparisons) return;
-	
-	[secondColor set];
-	[[self bezierPathForPoints:self.basePoints] stroke];
 
 }
 
