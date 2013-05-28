@@ -15,7 +15,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 @interface MATHPlotView ()
-@property (strong) NSMutableArray *points;
+@property (strong) NSMutableArray *currentPoints;
+@property (strong) NSMutableArray *basePoints;
 @property (strong) MATHExpression *expressionEvaluator;
 @end
 
@@ -45,7 +46,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 - (void)commonInit {
 	self.expressionEvaluator = [MATHExpression new];
-	self.points = [NSMutableArray new];
+	self.currentPoints = [NSMutableArray new];
 	[self setAutoresizesSubviews:YES];
 }
 
@@ -67,6 +68,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 - (void)setShowsComparisons:(BOOL)showsComparisons {
 	_showsComparisons = showsComparisons;
 	
+	self.expressionEvaluator.comparisonMode = showsComparisons;
+	
 	[self setupPlotInfoAndRedisplay];
 }
 
@@ -81,11 +84,17 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 - (void)setupPlotInfo {
 	self.expressionEvaluator.expression = self.expression;
-	self.points = [NSMutableArray new];
+	self.currentPoints = [NSMutableArray new];
+	self.basePoints = [NSMutableArray new];
 	double domain = [self graphingXDomain];
-	[self.expressionEvaluator evaluateExpressionFromX:-domain toX:domain evaluationHandler:^(double input, double result) {
-		[self.points addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
+
+	
+	[self.expressionEvaluator evaluateExpressionFromX:-domain toX:domain currentEvaluationHandler:^(double input, double result) {
+		[self.currentPoints addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
+	} baseEvaluationHandler:^(double input, double result) {
+		[self.basePoints addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
 	}];
+	NSLog(@"..");
 }
 
 
@@ -140,18 +149,42 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)drawPoints {
+	
+	// Colours depend on if we're comparing or not.
+	NSColor *firstColor, *secondColor;
+	if (self.showsComparisons) {
+		firstColor = [NSColor comparedFunctionColor];
+		secondColor = [NSColor baseFunctionColor];
+	} else {
+		firstColor = [NSColor baseFunctionColor];
+		secondColor = [NSColor comparedFunctionColor];
+	}
+	
+	
+	[firstColor set];
+	[[self bezierPathForPoints:self.currentPoints] stroke];
+	
+	
+	if (!self.showsComparisons) return;
+	
+	[secondColor set];
+	[[self bezierPathForPoints:self.basePoints] stroke];
+
+}
+
+
+- (NSBezierPath *)bezierPathForPoints:(NSArray *)points {	
 	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
-	NSValue *firstPoint = [self.points zerothObject];
+	NSValue *firstPoint = [points zerothObject];
 	
 	CGPoint unscaledPoint = [firstPoint pointValue];
 	
 	[pointsPath moveToPoint:[self scaledAndTranslatedPointForPoint:unscaledPoint]];
-	for (NSValue *v in self.points) {
+	for (NSValue *v in points) {
 		[pointsPath lineToPoint:[self scaledAndTranslatedPointForPoint:[v pointValue]]];
 	}
 	
-	[[NSColor baseFunctionColor] set];
-	[pointsPath stroke];
+	return pointsPath;
 }
 
 

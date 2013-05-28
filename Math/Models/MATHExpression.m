@@ -11,6 +11,7 @@
 
 @interface MATHExpression ()
 @property (readwrite, copy) NSString *lastValidExpression;
+@property (copy) NSString *baseExpression;
 @property (readonly, strong) GCMathParser *mathParser;
 @end
 
@@ -40,6 +41,19 @@
 	_expression = [expression copy];
 	
 	
+}
+
+
+- (void)setComparisonMode:(BOOL)comparisonMode {
+	_comparisonMode = comparisonMode;
+	
+	self.baseExpression = self.lastValidExpression;
+//	if (comparisonMode) {
+//		// We're starting compare mode. Save whatever is currently stored in lastValidExpression as our baseExpression so it can be compared later
+//		self.baseExpression = self.lastValidExpression;
+//	} else {
+//		// Done comparing. 
+//	}
 }
 
 - (void)parseExpressionForValidity:(NSString *)expression {
@@ -77,29 +91,49 @@
 }
 
 
-- (void)evaluateExpressionFromX:(double)fromX toX:(double)toX evaluationHandler:(MATHExpressionEvaluationHandler)evaluationHandler {
+- (void)evaluateExpressionFromX:(double)fromX toX:(double)toX currentEvaluationHandler:(MATHExpressionEvaluationHandler)currentEvaluationHandler baseEvaluationHandler:(MATHExpressionEvaluationHandler)baseEvaluationHandler {
 	
-	if (evaluationHandler == nil) return;
+	if (currentEvaluationHandler == nil) return;
 	if (![self.lastValidExpression length]) return;
-	NSLog(@"last valid: %@", self.lastValidExpression);
 	
-	NSString *expression = self.lastValidExpression; // instead of repeatedly asking for it.
+	
+	NSString *currentExpression = self.lastValidExpression; // instead of repeatedly asking for it.
+	NSString *baseExpression = self.baseExpression;
+	
+	if (self.comparisonMode) {
+		NSLog(@"functions are current: %@, base: %@", currentExpression, baseExpression);
+	}
+	
 	GCMathParser *parser = [GCMathParser parser];//self.mathParser;
 	
 	double x, y;
 	for (x = fromX; x <= toX; x += 0.01) {
 		[parser setSymbolValue:x forKey:@"x"];
 		@try {
-			y = [parser evaluate:expression];
+			y = [parser evaluate:currentExpression];
 		}
 		@catch (NSException *exception) {
-//			NSLog(@"Exception when evaluating (%@) over range??? %@", expression, exception);
+
 		}
 		@finally {
 			
 		}
+		currentEvaluationHandler(x, y);
 		
-		evaluationHandler(x, y);
+		if (!self.comparisonMode) continue;
+		if (!baseEvaluationHandler) continue;
+		
+		// Now evaluate the base expression.
+		@try {
+			y = [parser evaluate:baseExpression];
+		} @catch (NSException *exception) {
+			
+		} @finally {
+			
+		}
+		
+		baseEvaluationHandler(x, y);
+		
 	}
 }
 
