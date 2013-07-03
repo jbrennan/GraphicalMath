@@ -94,7 +94,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	} baseEvaluationHandler:^(double input, double result) {
 		[self.basePoints addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
 	}];
-	NSLog(@"..");
 }
 
 
@@ -143,8 +142,19 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 	CGPoint drawingPoint = CGPointMake(20.0f, CGRectGetHeight([self bounds]) - 30.0f);
 	
+	
 	// Draw the original function in grey
-	[self.expressionEvaluator.lastValidExpression drawAtPoint:drawingPoint withAttributes:baseAttributes];
+	NSString *functionToDraw = self.showsComparisons? self.expressionEvaluator.baseExpression : self.expressionEvaluator.lastValidExpression;
+
+	[functionToDraw drawAtPoint:drawingPoint withAttributes:baseAttributes];
+
+	if (self.showsComparisons) {		
+		CGSize labelSize = [functionToDraw sizeWithAttributes:baseAttributes];
+		drawingPoint.y -= (labelSize.height + 5.0f);
+		
+		NSDictionary *secondFunctionAttributes = @{NSFontAttributeName: functionFont, NSForegroundColorAttributeName: [NSColor comparedFunctionColor]};
+		[self.expressionEvaluator.lastValidExpression drawAtPoint:drawingPoint withAttributes:secondFunctionAttributes];
+	}
 }
 
 

@@ -14,6 +14,11 @@ typedef void(^MATHExpressionEvaluationHandler)(double input, double result);
 
 @property (nonatomic, copy) NSString *expression;
 @property (readonly, copy) NSString *lastValidExpression; // if an expression is being typed, but is incomplete, this will hold the last one that parsed properly.
+
+/**
+ If comparing, this will be the most recent "lastValidExpression` that was parsed before comparing began. Otherwise, it's just `lastValidExpression`.
+ */
+@property (copy) NSString *baseExpression;
 @property (readonly) BOOL expressionIsPeriodic;
 @property (nonatomic, assign) BOOL comparisonMode;
 

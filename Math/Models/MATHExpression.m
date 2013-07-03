@@ -10,9 +10,10 @@
 #import "GCMathParser.h"
 
 @interface MATHExpression ()
+
 @property (readwrite, copy) NSString *lastValidExpression;
-@property (copy) NSString *baseExpression;
 @property (readonly, strong) GCMathParser *mathParser;
+
 @end
 
 
