@@ -150,25 +150,15 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 - (void)drawPoints {
 	
-	// Colours depend on if we're comparing or not.
-	NSColor *firstColor, *secondColor;
-	if (self.showsComparisons) {
-		firstColor = [NSColor comparedFunctionColor];
-		secondColor = [NSColor baseFunctionColor];
-	} else {
-		firstColor = [NSColor baseFunctionColor];
-		secondColor = [NSColor comparedFunctionColor];
-	}
-	
-	
+
 	if (self.showsComparisons) {
 		// draw the base first so that the current function will be on top.
-		[secondColor set];
+		[[self secondGraphColor] set];
 		[[self bezierPathForPoints:self.basePoints] stroke];
 	}
 	
 	
-	[firstColor set];
+	[[self firstGraphColor] set];
 	[[self bezierPathForPoints:self.currentPoints] stroke];
 
 }
@@ -334,5 +324,16 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 	return translated;
 }
+
+
+- (NSColor *)firstGraphColor {
+	return self.showsComparisons? [NSColor comparedFunctionColor] : [NSColor baseFunctionColor];
+}
+
+
+- (NSColor *)secondGraphColor {
+	return self.showsComparisons? [NSColor baseFunctionColor] : [NSColor comparedFunctionColor];
+}
+
 
 @end
