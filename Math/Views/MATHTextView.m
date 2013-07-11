@@ -142,7 +142,7 @@
     
     
     double offsetValue = [self.initialNumber doubleValue] + ((double)offset.width * shiftFactor);// should only multiply the offset *SINCE* shift went down, yeah? Otherwise, if I drag far, I'll get a big number, but then hitting shift will wipe that out, basically?
-    NSNumber *updatedNumber = @(offsetValue);
+    NSNumber *updatedNumber = @(shiftFactor == 1.0? round(offsetValue) :  (floor(offsetValue * 100 + 0.5)/100));
     NSString *updatedNumberString = [updatedNumber stringValue];
     
     [[self textStorage] replaceCharactersInRange:self.currentlyHighlightedRange withString:updatedNumberString];
