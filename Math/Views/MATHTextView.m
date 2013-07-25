@@ -143,9 +143,6 @@
     
     double offsetValue = [self.initialNumber doubleValue] + ((double)offset.width * shiftFactor);// should only multiply the offset *SINCE* shift went down, yeah? Otherwise, if I drag far, I'll get a big number, but then hitting shift will wipe that out, basically?
 	
-//	NSString *offsetValueInString = [NSString stringWithFormat:@"%.2g", offsetValue];
-	
-//	NSNumber *updatedNumber = [self numberFromString:offsetValueInString];//@(shiftFactor == 1.0? round(offsetValue) :  (floor(offsetValue * 100 + 0.5)/100));
 
 	NSString *updatedNumberString = @"";
 	if (shiftFactor == 1.0) {
