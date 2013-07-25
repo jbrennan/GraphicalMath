@@ -25,6 +25,18 @@
 	[self.textView setNumberDragHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
 		self.plotView.expression = [draggedObject string];
 	}];
+	
+	
+	[self.textView setDragStartedHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
+		self.plotView.showsComparisons = YES;
+	}];
+	
+	
+	[self.textView setDragEndedHandler:^(NSTextView *draggedObject, NSString *draggedLine) {
+		self.plotView.showsComparisons = NO;
+	}];
+	
+	
 	NSString *expression = @"sin(x)";
 	[self.textView setString:expression];
 	[self.plotView setExpression:expression];
