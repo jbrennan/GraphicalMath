@@ -101,6 +101,10 @@
 	
     NSRange originalCommandRange = [wholeText lineRangeForRange:self.currentlyHighlightedRange];
     self.initialDragCommandRange = originalCommandRange;
+	
+	if (self.dragStartedHandler) {
+		self.dragStartedHandler(self, [wholeText substringWithRange:originalCommandRange]);
+	}
 }
 
 
@@ -111,6 +115,7 @@
         [super mouseDragged:theEvent];
         return;
     }
+	
     
     NSRange numberRange = [self rangeForNumberNearestToIndex:self.currentlyHighlightedRange.location];
     NSString *numberString = [[self string] substringWithRange:numberRange];
@@ -127,11 +132,25 @@
     CGFloat x = screenPoint.x - self.initialDragPoint.x;
     CGFloat y = screenPoint.y - self.initialDragPoint.y;
     CGSize offset = CGSizeMake(x, y);
+	
+	
+	double shiftFactor = 1.0;
+	if ([theEvent modifierFlags] & NSShiftKeyMask) {
+		// Adjust by 0.1 on every step.
+		shiftFactor = 0.1;
+	}
     
     
-    NSInteger offsetValue = [self.initialNumber integerValue] + (NSInteger)offset.width;
-    NSNumber *updatedNumber = @(offsetValue);
-    NSString *updatedNumberString = [updatedNumber stringValue];
+    double offsetValue = [self.initialNumber doubleValue] + ((double)offset.width * shiftFactor);// should only multiply the offset *SINCE* shift went down, yeah? Otherwise, if I drag far, I'll get a big number, but then hitting shift will wipe that out, basically?
+	
+
+	NSString *updatedNumberString = @"";
+	if (shiftFactor == 1.0) {
+		updatedNumberString = [NSString stringWithFormat:@"%ld", (NSInteger)round(offsetValue)];
+	} else {
+		updatedNumberString = [NSString stringWithFormat:@"%.2f", offsetValue];
+	}
+	
     
     [[self textStorage] replaceCharactersInRange:self.currentlyHighlightedRange withString:updatedNumberString];
     
@@ -151,6 +170,10 @@
         [super mouseUp:theEvent];
         return;
     }
+	
+	if (self.dragEndedHandler) {
+		self.dragEndedHandler(self, [[self string] substringWithRange:self.initialDragCommandRange]);
+	}
     
     // Triggers clearing out our number-dragging state.
     [self highlightText];

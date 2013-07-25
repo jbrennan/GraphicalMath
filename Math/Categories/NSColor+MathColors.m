@@ -19,4 +19,14 @@
 	return [NSColor colorWithCalibratedHue:0.672 saturation:0.020 brightness:1.000 alpha:1.000];
 }
 
+
++ (NSColor *)baseFunctionColor {
+	return [NSColor darkGrayColor];
+}
+
+
++ (NSColor *)comparedFunctionColor {
+	return [NSColor colorWithDeviceHue:0.984 saturation:0.979 brightness:0.746 alpha:1.000];
+}
+
 @end

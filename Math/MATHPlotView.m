@@ -15,13 +15,15 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 @interface MATHPlotView ()
-@property (strong) NSMutableArray *points;
+@property (strong) NSMutableArray *currentPoints;
+@property (strong) NSMutableArray *basePoints;
 @property (strong) MATHExpression *expressionEvaluator;
 @end
 
 
-@implementation MATHPlotView
+#pragma mark -
 
+@implementation MATHPlotView
 - (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
@@ -44,37 +46,58 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 - (void)commonInit {
 	self.expressionEvaluator = [MATHExpression new];
-	self.points = [NSMutableArray new];
+	self.currentPoints = [NSMutableArray new];
 	[self setAutoresizesSubviews:YES];
-}
-
-
-- (void)setExpression:(NSString *)expression {
-	_expression = [expression copy];
-	
-	[self setupPlotInfo];
-	
-	[self setNeedsDisplay:YES];
-	
-}
-
-
-- (void)setupPlotInfo {
-	self.expressionEvaluator.expression = self.expression;
-	self.points = [NSMutableArray new];
-	double domain = [self graphingXDomain];
-	[self.expressionEvaluator evaluateExpressionFromX:-domain toX:domain evaluationHandler:^(double input, double result) {
-		[self.points addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
-	}];
 }
 
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
 	[super resizeWithOldSuperviewSize:oldBoundsSize];
+	[self setupPlotInfoAndRedisplay];
+}
+
+#pragma mark - Public API
+
+- (void)setExpression:(NSString *)expression {
+	_expression = [expression copy];
+	
+	[self setupPlotInfoAndRedisplay];
+}
+
+
+- (void)setShowsComparisons:(BOOL)showsComparisons {
+	_showsComparisons = showsComparisons;
+	
+	self.expressionEvaluator.comparisonMode = showsComparisons;
+	
+	[self setupPlotInfoAndRedisplay];
+}
+
+
+#pragma mark - Private API
+
+
+- (void)setupPlotInfoAndRedisplay {
 	[self setupPlotInfo];
 	[self setNeedsDisplay:YES];
 }
 
+- (void)setupPlotInfo {
+	self.expressionEvaluator.expression = self.expression;
+	self.currentPoints = [NSMutableArray new];
+	self.basePoints = [NSMutableArray new];
+	double domain = [self graphingXDomain];
+
+	
+	[self.expressionEvaluator evaluateExpressionFromX:-domain toX:domain currentEvaluationHandler:^(double input, double result) {
+		[self.currentPoints addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
+	} baseEvaluationHandler:^(double input, double result) {
+		[self.basePoints addObject:[NSValue valueWithPoint:CGPointMake(input, result)]];
+	}];
+}
+
+
+#pragma mark - Drawing
 
 - (void)drawRect:(NSRect)dirtyRect {
 	
@@ -86,6 +109,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[self drawGraph];
 	[self drawUnits];
 	[self drawPoints];
+	
+	[self drawComparisonLabels];
 }
 
 
@@ -107,32 +132,60 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
+- (void)drawComparisonLabels {
+//	if (!self.showsComparisons) return;
+	
+	NSFont *functionFont = [NSFont fontWithName:@"Helvetica-Bold" size:12.0f];
+	
+	NSColor *baseFunctionColor = [NSColor baseFunctionColor];
+	NSDictionary *baseAttributes = @{NSFontAttributeName: functionFont, NSForegroundColorAttributeName: baseFunctionColor};
+	
+	CGPoint drawingPoint = CGPointMake(20.0f, CGRectGetHeight([self bounds]) - 30.0f);
+	
+	
+	// Draw the original function in grey
+	NSString *functionToDraw = self.showsComparisons? self.expressionEvaluator.baseExpression : self.expressionEvaluator.lastValidExpression;
+
+	[functionToDraw drawAtPoint:drawingPoint withAttributes:baseAttributes];
+
+	if (self.showsComparisons) {		
+		CGSize labelSize = [functionToDraw sizeWithAttributes:baseAttributes];
+		drawingPoint.y -= (labelSize.height + 5.0f);
+		
+		NSDictionary *secondFunctionAttributes = @{NSFontAttributeName: functionFont, NSForegroundColorAttributeName: [NSColor comparedFunctionColor]};
+		[self.expressionEvaluator.lastValidExpression drawAtPoint:drawingPoint withAttributes:secondFunctionAttributes];
+	}
+}
+
+
 - (void)drawPoints {
+	
+
+	if (self.showsComparisons) {
+		// draw the base first so that the current function will be on top.
+		[[self secondGraphColor] set];
+		[[self bezierPathForPoints:self.basePoints] stroke];
+	}
+	
+	
+	[[self firstGraphColor] set];
+	[[self bezierPathForPoints:self.currentPoints] stroke];
+
+}
+
+
+- (NSBezierPath *)bezierPathForPoints:(NSArray *)points {	
 	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
-	NSValue *firstPoint = [self.points zerothObject];
+	NSValue *firstPoint = [points zerothObject];
 	
 	CGPoint unscaledPoint = [firstPoint pointValue];
 	
 	[pointsPath moveToPoint:[self scaledAndTranslatedPointForPoint:unscaledPoint]];
-	for (NSValue *v in self.points) {
+	for (NSValue *v in points) {
 		[pointsPath lineToPoint:[self scaledAndTranslatedPointForPoint:[v pointValue]]];
 	}
 	
-	[[NSColor darkGrayColor] set];
-	[pointsPath stroke];
-}
-
-
-- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
-	CGFloat scale = [self unitScale];
-	
-	CGRect bounds = [self bounds];
-	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-	
-	CGPoint scaled = CGPointMake(unscaledPoint.x * scale, unscaledPoint.y * scale);
-	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
-	
-	return translated;
+	return pointsPath;
 }
 
 
@@ -268,5 +321,29 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGFloat halfWidth = CGRectGetMidX([self bounds]);
 	return (double)(halfWidth/[self unitScale]);
 }
+
+
+- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
+	CGFloat scale = [self unitScale];
+	
+	CGRect bounds = [self bounds];
+	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+	
+	CGPoint scaled = CGPointMake(unscaledPoint.x * scale, unscaledPoint.y * scale);
+	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
+	
+	return translated;
+}
+
+
+- (NSColor *)firstGraphColor {
+	return self.showsComparisons? [NSColor comparedFunctionColor] : [NSColor baseFunctionColor];
+}
+
+
+- (NSColor *)secondGraphColor {
+	return self.showsComparisons? [NSColor baseFunctionColor] : [NSColor comparedFunctionColor];
+}
+
 
 @end

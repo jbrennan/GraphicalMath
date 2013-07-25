@@ -11,5 +11,6 @@
 @interface MATHPlotView : NSView
 
 @property (nonatomic, copy) NSString *expression;
+@property (nonatomic, assign) BOOL showsComparisons;
 
 @end
