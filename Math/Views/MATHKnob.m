@@ -7,20 +7,24 @@
 //
 
 #import "MATHKnob.h"
+#import "NSColor+MathColors.h"
 
 @implementation MATHKnob
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+- (void)setupView {
+	
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+	CGRect bounds = [self bounds];
 	
+	// ensure it's a square
+	bounds.size.height = bounds.size.width;
+	
+	NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:bounds];
+	[[NSColor comparedFunctionColor] set];
+	
+	[path fill];
 }
 
 @end

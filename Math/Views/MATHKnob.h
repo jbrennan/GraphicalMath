@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MATHKnob : NSView
+@interface MATHKnob : JBView
 
 @end

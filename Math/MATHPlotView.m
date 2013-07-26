@@ -9,15 +9,19 @@
 #import "MATHPlotView.h"
 #import "MATHExpression.h"
 #import "NSColor+MathColors.h"
-
+#import "MATHKnob.h"
 
 const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 @interface MATHPlotView ()
+
 @property (strong) NSMutableArray *currentPoints;
 @property (strong) NSMutableArray *basePoints;
 @property (strong) MATHExpression *expressionEvaluator;
+
+@property MATHKnob *knob;
+
 @end
 
 
@@ -55,6 +59,9 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 																									NSTrackingInVisibleRect)
 																  owner:self userInfo:nil];
 	[self addTrackingArea:trackingArea];
+	
+	CGFloat knobSize = 12.f;
+	self.knob = [MATHKnob newWithSuperview:self frame:CGRectMake(0, 0, knobSize, knobSize)];
 }
 
 
@@ -320,15 +327,28 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGPoint converted = [self pointByConvertingViewPointToExpressionPoint:mousePoint];
 	
 	NSLog(@"%@ %@", NSStringFromPoint(mousePoint), NSStringFromPoint(converted));
+	[self moveKnobToPoint:CGPointMake(mousePoint.x, CGRectGetMidY([self bounds]))];
 	
-	
+}
+
+
+- (void)moveKnobToPoint:(CGPoint)point {
+	[self.knob setFrameOrigin:point];
 }
 
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	NSLog(@"entered");
+	[self setKnobVisible:YES];
 }
 
+- (void)mouseExited:(NSEvent *)theEvent {
+	[self setKnobVisible:NO];
+}
+
+
+- (void)setKnobVisible:(BOOL)visible {
+	[self.knob setHidden:!visible];
+}
 
 #pragma mark - Helpers
 
