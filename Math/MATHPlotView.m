@@ -326,14 +326,26 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 	CGPoint converted = [self pointByConvertingViewPointToExpressionPoint:mousePoint];
 	
+	__block CGFloat y = 0;
 	NSLog(@"%@ %@", NSStringFromPoint(mousePoint), NSStringFromPoint(converted));
-	[self moveKnobToPoint:CGPointMake(mousePoint.x, CGRectGetMidY([self bounds]))];
+	[self.expressionEvaluator evaluateExpressionFromX:converted.x toX:converted.x currentEvaluationHandler:^(double input, double result) {
+		y = result;
+	} baseEvaluationHandler:^(double input, double result) {
+		
+	}];
+	
+	CGPoint mathPoint = CGPointMake(converted.x, y);
+	CGPoint convertedAnswerPoint = [self pointByConvertingExpressionPointToViewPoint:mathPoint];
+	
+	[self moveKnobToPoint:convertedAnswerPoint];
 	
 }
 
 
 - (void)moveKnobToPoint:(CGPoint)point {
-	[self.knob setFrameOrigin:point];
+	CGRect frame = [self.knob frame];
+	CGPoint frameOrigin = CGPointMake(point.x - (CGRectGetWidth(frame) / 2.0), point.y - (CGRectGetHeight(frame) / 2.0));
+	[self.knob setFrameOrigin:frameOrigin];
 }
 
 
