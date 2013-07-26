@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD1710E317A1FCB9004C7C49 /* MATHKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1710E217A1FCB9004C7C49 /* MATHKnob.m */; };
 		CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */; };
 		CD466F19172DB4BF00BAA1CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD466F17172DB4BF00BAA1CF /* InfoPlist.strings */; };
 		CD466F1B172DB4BF00BAA1CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD466F1A172DB4BF00BAA1CF /* main.m */; };
@@ -48,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD1710E117A1FCB9004C7C49 /* MATHKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHKnob.h; sourceTree = "<group>"; };
+		CD1710E217A1FCB9004C7C49 /* MATHKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHKnob.m; sourceTree = "<group>"; };
 		CD466F0B172DB4BF00BAA1CF /* Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Math.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CD466F11172DB4BF00BAA1CF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -183,6 +186,8 @@
 			children = (
 				CD466F371730ACFE00BAA1CF /* MATHTextView.h */,
 				CD466F381730ACFE00BAA1CF /* MATHTextView.m */,
+				CD1710E117A1FCB9004C7C49 /* MATHKnob.h */,
+				CD1710E217A1FCB9004C7C49 /* MATHKnob.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -329,6 +334,7 @@
 				CD466F391730ACFE00BAA1CF /* MATHTextView.m in Sources */,
 				CD466FAB1735969400BAA1CF /* NSColor+MathColors.m in Sources */,
 				CDD212AB17424ECC00F43BBE /* MATHExpression.m in Sources */,
+				CD1710E317A1FCB9004C7C49 /* MATHKnob.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
