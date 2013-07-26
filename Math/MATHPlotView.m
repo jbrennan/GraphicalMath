@@ -48,6 +48,13 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	self.expressionEvaluator = [MATHExpression new];
 	self.currentPoints = [NSMutableArray new];
 	[self setAutoresizesSubviews:YES];
+	
+	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:[self visibleRect] options:(NSTrackingMouseEnteredAndExited |
+																									NSTrackingMouseMoved |
+																									NSTrackingActiveInActiveApp |
+																									NSTrackingInVisibleRect)
+																  owner:self userInfo:nil];
+	[self addTrackingArea:trackingArea];
 }
 
 
@@ -180,9 +187,9 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 	CGPoint unscaledPoint = [firstPoint pointValue];
 	
-	[pointsPath moveToPoint:[self scaledAndTranslatedPointForPoint:unscaledPoint]];
+	[pointsPath moveToPoint:[self pointByConvertingExpressionPointToViewPoint:unscaledPoint]];
 	for (NSValue *v in points) {
-		[pointsPath lineToPoint:[self scaledAndTranslatedPointForPoint:[v pointValue]]];
+		[pointsPath lineToPoint:[self pointByConvertingExpressionPointToViewPoint:[v pointValue]]];
 	}
 	
 	return pointsPath;
@@ -303,6 +310,26 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
+- (void)mouseMoved:(NSEvent *)theEvent {
+
+	[super mouseMoved:theEvent];
+	
+	// Get the point, then map it down to "math-space"
+	CGPoint mousePoint = [theEvent locationInWindow];
+	
+	CGPoint converted = [self pointByConvertingViewPointToExpressionPoint:mousePoint];
+	
+	NSLog(@"%@ %@", NSStringFromPoint(mousePoint), NSStringFromPoint(converted));
+	
+	
+}
+
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+	NSLog(@"entered");
+}
+
+
 #pragma mark - Helpers
 
 - (BOOL)expressionIsPeriodic {
@@ -323,7 +350,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
-- (CGPoint)scaledAndTranslatedPointForPoint:(CGPoint)unscaledPoint {
+- (CGPoint)pointByConvertingExpressionPointToViewPoint:(CGPoint)unscaledPoint {
 	CGFloat scale = [self unitScale];
 	
 	CGRect bounds = [self bounds];
@@ -333,6 +360,19 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGPoint translated = CGPointMake(scaled.x + halfBounds.x, scaled.y + halfBounds.y);
 	
 	return translated;
+}
+
+
+- (CGPoint)pointByConvertingViewPointToExpressionPoint:(CGPoint)viewPoint {
+	
+	CGFloat scale = [self unitScale];
+	
+	CGRect bounds = [self bounds];
+	CGPoint halfBounds = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+	CGPoint translated = CGPointMake(viewPoint.x - halfBounds.x, viewPoint.y - halfBounds.y);
+	CGPoint scaled = CGPointMake(translated.x / scale, translated.y / scale);
+	
+	return scaled;
 }
 
 
