@@ -327,7 +327,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGPoint converted = [self pointByConvertingViewPointToExpressionPoint:mousePoint];
 	
 	__block CGFloat y = 0;
-	NSLog(@"%@ %@", NSStringFromPoint(mousePoint), NSStringFromPoint(converted));
 	[self.expressionEvaluator evaluateExpressionFromX:converted.x toX:converted.x currentEvaluationHandler:^(double input, double result) {
 		y = result;
 	} baseEvaluationHandler:^(double input, double result) {
@@ -343,9 +342,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)moveKnobToPoint:(CGPoint)point {
-	CGRect frame = [self.knob frame];
-	CGPoint frameOrigin = CGPointMake(point.x - (CGRectGetWidth(frame) / 2.0), point.y - (CGRectGetHeight(frame) / 2.0));
-	[self.knob setFrameOrigin:frameOrigin];
+	self.knob.centerOfFrame = point;
 }
 
 
