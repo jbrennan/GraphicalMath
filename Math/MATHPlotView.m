@@ -60,7 +60,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 																  owner:self userInfo:nil];
 	[self addTrackingArea:trackingArea];
 	
-	CGFloat knobSize = 12.f;
+	CGFloat knobSize = 10.f;
 	self.knob = [MATHKnob newWithSuperview:self frame:CGRectMake(0, 0, knobSize, knobSize)];
 }
 
