@@ -12,7 +12,7 @@
 #import "MATHKnob.h"
 
 const CGFloat MATHPlotViewLineWidth = 1.0f;
-
+const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_MAX};
 
 @interface MATHPlotView ()
 
@@ -22,6 +22,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 @property MATHKnob *knob;
 @property NSTextField *mouseLabel;
+@property (readonly) BOOL mouseIsInView;
+@property CGPoint mousePoint;
 
 @end
 
@@ -137,6 +139,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[self drawUnits];
 	[self drawPoints];
 	
+	if (self.mouseIsInView) [self drawMouseLines];
+	
 	[self drawComparisonLabels];
 }
 
@@ -195,17 +199,42 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	if (self.showsComparisons) {
 		// draw the base first so that the current function will be on top.
 		[[self secondGraphColor] set];
-		[[self bezierPathForPoints:self.basePoints] stroke];
+		[[self bezierPathForExpressionPoints:self.basePoints] stroke];
 	}
 	
 	
 	[[self firstGraphColor] set];
-	[[self bezierPathForPoints:self.currentPoints] stroke];
+	[[self bezierPathForExpressionPoints:self.currentPoints] stroke];
 
 }
 
 
-- (NSBezierPath *)bezierPathForPoints:(NSArray *)points {	
+- (void)drawMouseLines {
+	NSMutableArray *points = [NSMutableArray new];
+	[points addObject:[NSValue valueWithPoint:self.mousePoint]];
+	
+	CGPoint graphOrigin = [self pointByConvertingExpressionPointToViewPoint:CGPointMake(0, 0)];
+	CGPoint pointAlongXAxis = CGPointMake(self.mousePoint.x, graphOrigin.y);
+	CGPoint pointAlongYAxis = CGPointMake(graphOrigin.x, self.mousePoint.y);
+	
+	
+	[points addObject:[NSValue valueWithPoint:pointAlongXAxis]];
+	
+	// Get the bezier paths and draw them.
+	[[NSColor comparedFunctionColor] set];
+	NSBezierPath *xPath = [self bezierPathForViewPoints:points];
+	[xPath stroke];
+	
+	[points removeLastObject];
+	[points addObject:[NSValue valueWithPoint:pointAlongYAxis]];
+	
+	
+	NSBezierPath *yPath = [self bezierPathForViewPoints:points];
+	[yPath stroke];
+}
+
+
+- (NSBezierPath *)bezierPathForExpressionPoints:(NSArray *)points {
 	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
 	NSValue *firstPoint = [points zerothObject];
 	
@@ -214,6 +243,21 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[pointsPath moveToPoint:[self pointByConvertingExpressionPointToViewPoint:unscaledPoint]];
 	for (NSValue *v in points) {
 		[pointsPath lineToPoint:[self pointByConvertingExpressionPointToViewPoint:[v pointValue]]];
+	}
+	
+	return pointsPath;
+}
+
+
+- (NSBezierPath *)bezierPathForViewPoints:(NSArray *)points {
+	NSBezierPath *pointsPath = [NSBezierPath bezierPath];
+	NSValue *firstPoint = [points zerothObject];
+	
+	CGPoint viewPoint = [firstPoint pointValue];
+	
+	[pointsPath moveToPoint:viewPoint];
+	for (NSValue *v in points) {
+		[pointsPath lineToPoint:[v pointValue]];
 	}
 	
 	return pointsPath;
@@ -248,9 +292,6 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)drawPeriodicUnits {
-	// I need some kind of scale that will take mathematical units and turn them into pixel units (well, points).
-	// This scale needs to be the same no matter what the size of the view is.
-	// But the scale should probably be configurable so that it can either be zoomed or derived from the Expression being evaluated.
 	
 	[self drawPeriodicUnitsAlongHorizontalAxis:YES positive:YES];
 	[self drawPeriodicUnitsAlongHorizontalAxis:YES positive:NO];
@@ -333,6 +374,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 }
 
+#pragma mark - Mouse movements
+
 
 - (void)mouseMoved:(NSEvent *)theEvent {
 
@@ -356,6 +399,8 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	[self moveKnobToPoint:convertedAnswerPoint];
 	
 	[self setMouseLabelForYValue:y position:mousePoint];
+	self.mousePoint = [theEvent locationInWindow];
+	[self setNeedsDisplay:YES];
 	
 }
 
@@ -375,16 +420,23 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 
 
 - (void)mouseEntered:(NSEvent *)theEvent {
+	self.mousePoint = [theEvent locationInWindow];
 	[self setKnobVisible:YES];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
+	self.mousePoint = MATHPlotViewMouseNotInViewPoint;
 	[self setKnobVisible:NO];
 }
 
 
 - (void)setKnobVisible:(BOOL)visible {
 	[self.knob setHidden:!visible];
+}
+
+
+- (BOOL)mouseIsInView {
+	return !CGPointEqualToPoint(self.mousePoint, MATHPlotViewMouseNotInViewPoint);
 }
 
 #pragma mark - Helpers
