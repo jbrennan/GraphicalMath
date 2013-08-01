@@ -21,6 +21,7 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 @property (strong) MATHExpression *expressionEvaluator;
 
 @property MATHKnob *knob;
+@property NSTextField *mouseLabel;
 
 @end
 
@@ -62,8 +63,20 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	
 	CGFloat knobSize = 10.f;
 	self.knob = [MATHKnob newWithSuperview:self frame:CGRectMake(0, 0, knobSize, knobSize)];
+	
+	
+	self.mouseLabel = [NSTextField newWithSuperview:self frame:CGRectMake(0, 0, 0, 0)];
+	[self.mouseLabel setBezeled:NO];
+	[self.mouseLabel setEditable:NO];
+	[self.mouseLabel setDrawsBackground:NO];
+	[self.mouseLabel setAttributedStringValue:[self attributedMouseLabelStringForString:@""]];
+	[self.mouseLabel sizeToFit];
 }
 
+- (NSAttributedString *)attributedMouseLabelStringForString:(NSString *)string {
+	NSDictionary *attributes = @{NSFontAttributeName: [[self class] functionFont]};
+	return [[NSAttributedString alloc] initWithString:string attributes:attributes];
+}
 
 - (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
 	[super resizeWithOldSuperviewSize:oldBoundsSize];
@@ -146,10 +159,14 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 }
 
 
++ (NSFont *)functionFont {
+	return [NSFont fontWithName:@"Helvetica-Bold" size:12.0f];
+}
+
 - (void)drawComparisonLabels {
 //	if (!self.showsComparisons) return;
 	
-	NSFont *functionFont = [NSFont fontWithName:@"Helvetica-Bold" size:12.0f];
+	NSFont *functionFont = [[self class] functionFont];
 	
 	NSColor *baseFunctionColor = [NSColor baseFunctionColor];
 	NSDictionary *baseAttributes = @{NSFontAttributeName: functionFont, NSForegroundColorAttributeName: baseFunctionColor};
@@ -337,6 +354,17 @@ const CGFloat MATHPlotViewLineWidth = 1.0f;
 	CGPoint convertedAnswerPoint = [self pointByConvertingExpressionPointToViewPoint:mathPoint];
 	
 	[self moveKnobToPoint:convertedAnswerPoint];
+	
+	[self setMouseLabelForYValue:y position:mousePoint];
+	
+}
+
+
+- (void)setMouseLabelForYValue:(double)y position:(CGPoint)position {
+	NSString *labelString = [NSString stringWithFormat:@"%.2f", y];
+	[self.mouseLabel setAttributedStringValue:[self attributedMouseLabelStringForString:labelString]];
+	[self.mouseLabel sizeToFit];
+	[self.mouseLabel setFrameOrigin:position];
 	
 }
 
