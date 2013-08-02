@@ -23,7 +23,7 @@ const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_M
 @property MATHKnob *knob;
 @property NSTextField *mouseLabel;
 @property (readonly) BOOL mouseIsInView;
-@property CGPoint mousePoint;
+@property CGPoint currentViewScanningPoint;
 
 @end
 
@@ -211,11 +211,11 @@ const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_M
 
 - (void)drawMouseLines {
 	NSMutableArray *points = [NSMutableArray new];
-	[points addObject:[NSValue valueWithPoint:self.mousePoint]];
+	[points addObject:[NSValue valueWithPoint:self.currentViewScanningPoint]];
 	
 	CGPoint graphOrigin = [self pointByConvertingExpressionPointToViewPoint:CGPointMake(0, 0)];
-	CGPoint pointAlongXAxis = CGPointMake(self.mousePoint.x, graphOrigin.y);
-	CGPoint pointAlongYAxis = CGPointMake(graphOrigin.x, self.mousePoint.y);
+	CGPoint pointAlongXAxis = CGPointMake(self.currentViewScanningPoint.x, graphOrigin.y);
+	CGPoint pointAlongYAxis = CGPointMake(graphOrigin.x, self.currentViewScanningPoint.y);
 	
 	
 	[points addObject:[NSValue valueWithPoint:pointAlongXAxis]];
@@ -399,7 +399,7 @@ const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_M
 	[self moveKnobToPoint:convertedAnswerPoint];
 	
 	[self setMouseLabelForYValue:y position:mousePoint];
-	self.mousePoint = [theEvent locationInWindow];
+
 	[self setNeedsDisplay:YES];
 	
 }
@@ -416,17 +416,20 @@ const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_M
 
 - (void)moveKnobToPoint:(CGPoint)point {
 	self.knob.centerOfFrame = point;
+	self.currentViewScanningPoint = point;
 }
 
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	self.mousePoint = [theEvent locationInWindow];
+	self.currentViewScanningPoint = [theEvent locationInWindow];
+	[self setNeedsDisplay:YES];
 	[self setKnobVisible:YES];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	self.mousePoint = MATHPlotViewMouseNotInViewPoint;
+	self.currentViewScanningPoint = MATHPlotViewMouseNotInViewPoint;
 	[self setKnobVisible:NO];
+	[self setNeedsDisplay:YES];
 }
 
 
@@ -436,7 +439,7 @@ const CGPoint MATHPlotViewMouseNotInViewPoint = (CGPoint){CGFLOAT_MAX, CGFLOAT_M
 
 
 - (BOOL)mouseIsInView {
-	return !CGPointEqualToPoint(self.mousePoint, MATHPlotViewMouseNotInViewPoint);
+	return !CGPointEqualToPoint(self.currentViewScanningPoint, MATHPlotViewMouseNotInViewPoint);
 }
 
 #pragma mark - Helpers
