@@ -25,6 +25,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		CD13E42617AF58610035A43B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD17102D1791F65D004C7C49;
+			remoteInfo = CocoaTouchToolbox;
+		};
+		CD13E42917AF58610035A43B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD13E42017AF58600035A43B /* ExpressionParser.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD13E3CB17AEBDFE0035A43B;
+			remoteInfo = ExpressionParser;
+		};
 		CD466F3F1730B37F00BAA1CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
@@ -49,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD13E42017AF58600035A43B /* ExpressionParser.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ExpressionParser.xcodeproj; path = ../../../ExpressionParser/ExpressionParser.xcodeproj; sourceTree = "<group>"; };
 		CD1710E117A1FCB9004C7C49 /* MATHKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATHKnob.h; sourceTree = "<group>"; };
 		CD1710E217A1FCB9004C7C49 /* MATHKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATHKnob.m; sourceTree = "<group>"; };
 		CD466F0B172DB4BF00BAA1CF /* Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Math.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD13E42117AF58600035A43B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD13E42A17AF58610035A43B /* ExpressionParser.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		CD466F02172DB4BF00BAA1CF = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +186,7 @@
 		CD466F2E172DDEC600BAA1CF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				CD13E42017AF58600035A43B /* ExpressionParser.xcodeproj */,
 				CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */,
 				CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */,
 				CD466F2F172DDF0300BAA1CF /* GCExpressionParser */,
@@ -205,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				CD466FA31735931F00BAA1CF /* CocoaToolbox.framework */,
+				CD13E42717AF58610035A43B /* libCocoaTouchToolbox.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -273,6 +298,10 @@
 					ProjectRef = CD466F9E1735931F00BAA1CF /* CocoaToolbox.xcodeproj */;
 				},
 				{
+					ProductGroup = CD13E42117AF58600035A43B /* Products */;
+					ProjectRef = CD13E42017AF58600035A43B /* ExpressionParser.xcodeproj */;
+				},
+				{
 					ProductGroup = CD466F3B1730B37E00BAA1CF /* Products */;
 					ProjectRef = CD466F3A1730B37E00BAA1CF /* ParseKit.xcodeproj */;
 				},
@@ -285,6 +314,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		CD13E42717AF58610035A43B /* libCocoaTouchToolbox.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocoaTouchToolbox.a;
+			remoteRef = CD13E42617AF58610035A43B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CD13E42A17AF58610035A43B /* ExpressionParser.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ExpressionParser.framework;
+			remoteRef = CD13E42917AF58610035A43B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CD466F401730B37F00BAA1CF /* ParseKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
