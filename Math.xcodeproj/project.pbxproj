@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD13E43217AF58CB0035A43B /* ExpressionParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD13E42A17AF58610035A43B /* ExpressionParser.framework */; };
 		CD1710E317A1FCB9004C7C49 /* MATHKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1710E217A1FCB9004C7C49 /* MATHKnob.m */; };
 		CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD466F0E172DB4BF00BAA1CF /* Cocoa.framework */; };
 		CD466F19172DB4BF00BAA1CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD466F17172DB4BF00BAA1CF /* InfoPlist.strings */; };
@@ -100,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD13E43217AF58CB0035A43B /* ExpressionParser.framework in Frameworks */,
 				CD466FA61735932B00BAA1CF /* CocoaToolbox.framework in Frameworks */,
 				CD466F431730B6AC00BAA1CF /* ParseKit.framework in Frameworks */,
 				CD466F0F172DB4BF00BAA1CF /* Cocoa.framework in Frameworks */,
