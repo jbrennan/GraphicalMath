@@ -8,6 +8,7 @@
 
 #import "MATHExpression.h"
 #import "GCMathParser.h"
+#import <ExpressionParser/ExpressionParser.h>
 
 @interface MATHExpression ()
 
@@ -23,6 +24,8 @@
 	self = [super init];
 	if (self) {
 //		self.mathParser = [GCMathParser parser];
+		EXPExpressionParser *expressionParser = [EXPExpressionParser new];
+//		BOOL valid = [expressionParser ]
 	}
 	
 	return self;
