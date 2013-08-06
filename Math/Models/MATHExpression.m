@@ -25,7 +25,12 @@
 	if (self) {
 //		self.mathParser = [GCMathParser parser];
 		EXPExpressionParser *expressionParser = [EXPExpressionParser new];
-//		BOOL valid = [expressionParser ]
+		BOOL valid = [expressionParser expressionIsValid:@"2 + 5"];
+		BOOL valid2 = NO;//= [expressionParser expressionIsValid:@"(2 + 5"];
+		
+		NSLog(@"Testing: %d %d", valid, valid2);
+		
+		NSLog(@"Evaluating...%f", [expressionParser evaluateExpression:@"2 * 5"]);
 	}
 	
 	return self;
