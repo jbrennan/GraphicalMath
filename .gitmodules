@@ -9,4 +9,4 @@
 	url = git@github.com:jbrennan/CocoaToolbox.git
 [submodule "Math/Libraries/ExpressionParser"]
 	path = Math/Libraries/ExpressionParser
-	url = /Users/jbrennan/cocoa/ExpressionParser/
+	url = git@github.com:jbrennan/BrennanExpressionParser.git
