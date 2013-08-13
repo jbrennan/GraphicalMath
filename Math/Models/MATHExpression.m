@@ -13,7 +13,8 @@
 @interface MATHExpression ()
 
 @property (readwrite, copy) NSString *lastValidExpression;
-@property (readonly, strong) GCMathParser *mathParser;
+//@property (readonly, strong) GCMathParser *mathParser;
+@property (nonatomic, strong) EXPExpressionParser *mathParser;
 
 @end
 
@@ -24,23 +25,20 @@
 	self = [super init];
 	if (self) {
 //		self.mathParser = [GCMathParser parser];
-		EXPExpressionParser *expressionParser = [EXPExpressionParser new];
-		BOOL valid = [expressionParser expressionIsValid:@"2 + 5"];
-		BOOL valid2 = NO;//= [expressionParser expressionIsValid:@"(2 + 5"];
-		
-		NSLog(@"Testing: %d %d", valid, valid2);
-		
-		NSLog(@"Evaluating...%f", [expressionParser evaluateExpression:@"2 * 5"]);
+//		EXPExpressionParser *expressionParser = [EXPExpressionParser new];
+//		BOOL valid = [expressionParser expressionIsValid:@"2 + 5"];
+//		BOOL valid2 = NO;//= [expressionParser expressionIsValid:@"(2 + 5"];
+//		
+//		NSLog(@"Testing: %d %d", valid, valid2);
+//		
+//		NSLog(@"Evaluating...%f", [expressionParser evaluateExpression:@"2 * 5"]);
+		self.mathParser = [EXPExpressionParser new];
 	}
 	
 	return self;
 }
 
 
-- (GCMathParser *)mathParser {
-	// return a new parser
-	return [GCMathParser parser];
-}
 
 - (void)setExpression:(NSString *)expression {
 	if ([_expression isEqualToString:expression]) return;
@@ -67,29 +65,35 @@
 
 - (void)parseExpressionForValidity:(NSString *)expression {
 	
-	@try {
-		GCMathParser *p = [GCMathParser parser];
-		[p evaluate:expression];
-		NSLog(@"successfully parsed: %@", expression);
+	if ([self.mathParser expressionIsValid:expression]) {
 		self.lastValidExpression = expression;
-	}
-	@catch (NSException *exception) {
-		// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
+	} else {
 		self.lastValidExpression = self.expression;
-		NSLog(@"Didn't parse: %@", expression);
-		
-		@try {
-			// clear out the parser's internal status...it apparently does something messy.
-			// This is a hack.
-			[GCMathParser evaluate:@"1"];
-		}
-		@catch (NSException *exception) {
-			NSLog(@"Parser error on the cleanup!!");
-		}
-		@finally {
-			
-		}
 	}
+	
+//	@try {
+//		GCMathParser *p = [GCMathParser parser];
+//		[p evaluate:expression];
+//		NSLog(@"successfully parsed: %@", expression);
+//		self.lastValidExpression = expression;
+//	}
+//	@catch (NSException *exception) {
+//		// This means the parser didn't successfully parse, so keep the most recent validly parsed expression
+//		self.lastValidExpression = self.expression;
+//		NSLog(@"Didn't parse: %@", expression);
+//		
+//		@try {
+//			// clear out the parser's internal status...it apparently does something messy.
+//			// This is a hack.
+//			[GCMathParser evaluate:@"1"];
+//		}
+//		@catch (NSException *exception) {
+//			NSLog(@"Parser error on the cleanup!!");
+//		}
+//		@finally {
+//			
+//		}
+//	}
 }
 
 
@@ -113,34 +117,40 @@
 		NSLog(@"functions are current: %@, base: %@", currentExpression, baseExpression);
 	}
 	
-	GCMathParser *parser = [GCMathParser parser];//self.mathParser;
+//	GCMathParser *parser = [GCMathParser parser];//self.mathParser;
+	EXPExpressionParser *parser = self.mathParser;
 	
 	double x, y;
 	for (x = fromX; x <= toX; x += 0.01) {
-		[parser setSymbolValue:x forKey:@"x"];
-		@try {
-			y = [parser evaluate:currentExpression];
-		}
-		@catch (NSException *exception) {
-
-		}
-		@finally {
-			
-		}
+//		[parser setSymbolValue:x forKey:@"x"];
+		
+		[parser setValue:@(x) forSymbolNameInExpression:@"x"];
+		y = [parser evaluateExpression:currentExpression];
+		
+//		@try {
+//			y = [parser evaluate:currentExpression];
+//		}
+//		@catch (NSException *exception) {
+//
+//		}
+//		@finally {
+//			
+//		}
 		currentEvaluationHandler(x, y);
 		
 		if (!self.comparisonMode) continue;
 		if (!baseEvaluationHandler) continue;
 		
 		// Now evaluate the base expression.
-		@try {
-			y = [parser evaluate:baseExpression];
-		} @catch (NSException *exception) {
-			
-		} @finally {
-			
-		}
+//		@try {
+//			y = [parser evaluate:baseExpression];
+//		} @catch (NSException *exception) {
+//			
+//		} @finally {
+//			
+//		}
 		
+		y = [parser evaluateExpression:baseExpression];
 		baseEvaluationHandler(x, y);
 		
 	}
